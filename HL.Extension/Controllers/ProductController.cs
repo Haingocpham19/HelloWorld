@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Extension.Domain.Entities;
+﻿using Extension.Domain.Entities;
+using Extension.Web.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using PCS.Extension.Services;
 using PCS.Extension.Services.interfaces;
 using System;
@@ -8,7 +9,7 @@ namespace PCS.Extension.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ProductController : ExtensionBaseController<Products>
+    public class ProductController : BaseCustomController<Products>
     {
         private readonly IProductService _productService;
         public ProductController(IBaseService<Products> baseService, IProductService productService) : base(baseService)

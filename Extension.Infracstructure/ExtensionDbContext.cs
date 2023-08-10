@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Extension.Domain.Configuration;
+﻿using Extension.Domain.Configuration;
 using Extension.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Extension.Infracstructure
 {

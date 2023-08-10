@@ -1,5 +1,4 @@
-﻿using Extension.Domain.Enum;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace Extension.Domain.Entities

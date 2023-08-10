@@ -1,25 +1,19 @@
-using Extension.Domain.EF;
+using Extension.Domain.Abstractions;
+using Extension.Domain.Infrastructure;
 using Extension.Domain.Repositories;
+using Extension.Infracstructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
-using Extension.Domain.Infrastructure;
 using PCS.Extension.SaveJsonFile;
-using Extension.Domain.Repositories;
 using PCS.Extension.Services;
-using PCS.Extension.Services.interfaces;
 using PCS.Extension.Services.implement;
+using PCS.Extension.Services.interfaces;
+using System;
 
 namespace PCS.Extension
 {
@@ -58,7 +52,8 @@ namespace PCS.Extension
                 options.AddDefaultPolicy(
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -108,15 +103,20 @@ namespace PCS.Extension
             {
                 endpoints.MapControllers();
             });
-            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            try
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                ExtensionDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExtensionDbContext>();
-                DbInitializer.SeedData(dbContext).Wait();
-            }
-            catch (Exception)
-            {
-            }
+                try
+                {
+                    ExtensionDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExtensionDbContext>();
+                    DbInitializer.SeedData(dbContext).Wait();
+                }
+                catch (Exception)
+                {
+                    throw new Exception();
+                }
+                finally { serviceScope.Dispose(); }
+            };
         }
     }
 }

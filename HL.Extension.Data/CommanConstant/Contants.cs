@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Extension.Domain.CommanConstant
+﻿namespace Extension.Domain.CommanConstant
 {
     public static class Contants
     {

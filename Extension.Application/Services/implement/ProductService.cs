@@ -1,8 +1,6 @@
 ﻿using Extension.Domain.Entities;
-using Extension.Domain.Enum;
 using Extension.Domain.Repositories;
 using PCS.Extension.Services.interfaces;
-using System;
 using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace PCS.Extension.Services.implement
@@ -19,7 +17,7 @@ namespace PCS.Extension.Services.implement
         {
             try
             {
-                var result = _productRepository.GetProductsByIdClient(clientId);
+                var result = _productRepository.GetProductsByIdClientAsync(clientId);
                 _serviceResult.IsSuccess = true;
                 _serviceResult.UserMsg.Add("Lấy dữ liệu thành công.");
                 _serviceResult.ExtensionCode = ExtensionCode.Success;

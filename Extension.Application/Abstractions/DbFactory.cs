@@ -1,6 +1,5 @@
 ﻿using Extension.Domain.Abstractions;
 using Extension.Infracstructure;
-using Microsoft.EntityFrameworkCore;
 
 namespace Extension.Domain.Infrastructure
 {

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using Extension.Domain.EF;
-using Extension.Domain.Entities;
+﻿using Extension.Domain.Entities;
+using Extension.Infracstructure;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PCS.Extension.SaveJsonFile
 {
-    public class DbInitializer
+    public static class DbInitializer
     {
         public static async Task SeedData(ExtensionDbContext DbContext)
         {

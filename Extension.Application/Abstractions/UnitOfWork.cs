@@ -1,6 +1,5 @@
 ﻿using Extension.Domain.Abstractions;
 using Extension.Infracstructure;
-using System.Threading.Tasks;
 
 namespace Extension.Domain.Infrastructure
 {

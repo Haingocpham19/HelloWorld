@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Extension.Domain.Abstractions
+﻿namespace Extension.Domain.Abstractions
 {
     public interface IUnitOfWork
     {

@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using Extension.Domain.Entities;
+﻿using Extension.Domain.Entities;
+using Newtonsoft.Json;
 using PuppeteerSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PCS.Extension.Common
@@ -28,7 +27,7 @@ namespace PCS.Extension.Common
             {
                 string getDate = DateTime.Now.ToString("dd/MM/yy");
 
-                string url = $"https://portal.vietcombank.com.vn/UserControls/TVPortal.TyGia/pListTyGia.aspx?txttungay="+getDate+"&BacrhID=1&isEn=True";
+                string url = $"https://portal.vietcombank.com.vn/UserControls/TVPortal.TyGia/pListTyGia.aspx?txttungay=" + getDate + "&BacrhID=1&isEn=True";
 
                 //string url = "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx";
 
@@ -39,10 +38,10 @@ namespace PCS.Extension.Common
                 {
                     Currency temp = new Currency()
                     {
-                        CurencyId = i+1,
-                        CurrencyName = await page.EvaluateExpressionAsync<string>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i+3}) > td:nth-child(1)\").innerText"),
-                        CurrencyCode = await page.EvaluateExpressionAsync<string>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i+3}) > td:nth-child(2)\").innerText"),
-                        ExchangeRate = await page.EvaluateExpressionAsync<decimal>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i+3}) > td:nth-child(4)\").innerText")
+                        CurencyId = i + 1,
+                        CurrencyName = await page.EvaluateExpressionAsync<string>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i + 3}) > td:nth-child(1)\").innerText"),
+                        CurrencyCode = await page.EvaluateExpressionAsync<string>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i + 3}) > td:nth-child(2)\").innerText"),
+                        ExchangeRate = await page.EvaluateExpressionAsync<decimal>($"document.querySelector(\"#ctl00_Content_ExrateView > tbody > tr:nth-child({i + 3}) > td:nth-child(4)\").innerText")
                     };
                     listResult.Add(temp);
                 }

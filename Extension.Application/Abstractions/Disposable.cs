@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Extension.Domain.Infrastructure
+﻿namespace Extension.Domain.Infrastructure
 {
     public class Disposable : IDisposable
     {

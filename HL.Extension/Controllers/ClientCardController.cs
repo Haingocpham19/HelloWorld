@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Extension.Domain.Entities;
+﻿using Extension.Domain.Entities;
+using Extension.Web.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using PCS.Extension.Services;
+using PCS.Extension.Services.implement;
 using PCS.Extension.Services.interfaces;
 
 namespace PCS.Extension.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ClientCardController : ControllerBase
+    public class ClientCardController : BaseCustomController<ClientCard>
     {
-        private IClientCardService _clientCardService;
-        public ClientCardController(IClientCardService clientCardService)
+        private readonly IClientCardService _clientCardService;
+        public ClientCardController(IBaseService<ClientCard> baseService, IClientCardService clientCardService) : base(baseService)
         {
             _clientCardService = clientCardService;
         }

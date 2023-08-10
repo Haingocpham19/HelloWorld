@@ -1,21 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Extension.Domain.Abstractions;
+﻿using Extension.Domain.Abstractions;
 using Extension.Infracstructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Extension.Domain.Repositories
 {
     public class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : class
     {
-        private ExtensionDbContext _dbContext;
-        private readonly DbSet<Entity> _dbSet;
-        protected readonly IUnitOfWork _unitOfWork;
-        protected IDbFactory DbFactory { get; set; }
-        protected ExtensionDbContext DbContext => _dbContext ??= DbFactory.Init();
+        public readonly DbSet<Entity> _dbSet;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbFactory _dbFactory;
+
         public BaseRepository(IDbFactory dbFactory, IUnitOfWork unitOfWork)
         {
-            DbFactory = dbFactory;
-            _dbSet = DbContext.Set<Entity>();
+            _dbFactory = dbFactory;
             _unitOfWork = unitOfWork;
+            _dbSet = GetDbSet();
+        }
+
+        public DbSet<Entity> GetDbSet()
+        {
+            return _dbFactory.Init().Set<Entity>();
         }
 
         public int Delete(Entity entity)
@@ -37,9 +41,9 @@ namespace Extension.Domain.Repositories
             return _unitOfWork.Commit();
         }
 
-        public Entity GetById(object Id)
+        public Entity GetById(object id)
         {
-            return _dbSet.Find(Id);
+            return _dbSet.Find(id);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Extension.Domain.Entities;
-using Extension.Domain.Enum;
 using Extension.Domain.Repositories;
 using PCS.Extension.Services.interfaces;
-using System;
 using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace PCS.Extension.Services.implement
@@ -18,7 +16,7 @@ namespace PCS.Extension.Services.implement
             try
             {
                 var checkIsExits = _baseRepository.GetById(entity.ClientCardId);
-                if(checkIsExits != null)
+                if (checkIsExits != null)
                 {
                     _serviceResult.IsSuccess = false;
                     _serviceResult.UserMsg.Add("Client đã tồn tại.");

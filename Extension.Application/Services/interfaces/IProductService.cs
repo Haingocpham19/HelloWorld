@@ -1,5 +1,4 @@
 ﻿using Extension.Domain.Entities;
-using System;
 
 namespace PCS.Extension.Services.interfaces
 {

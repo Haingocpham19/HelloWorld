@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PCS.Extension.Services;
 
-namespace PCS.Extension.Controllers
+namespace Extension.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ExtensionBaseController<Entity> : ControllerBase where Entity : class
+    public class BaseCustomController<Entity> : ControllerBase where Entity : class
     {
         protected readonly IBaseService<Entity> _baseService;
 
-        public ExtensionBaseController(IBaseService<Entity> baseService)
+        public BaseCustomController(IBaseService<Entity> baseService)
         {
             _baseService = baseService;
         }

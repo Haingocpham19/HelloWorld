@@ -1,7 +1,5 @@
 ﻿using Extension.Domain.Entities;
-using Extension.Domain.Enum;
 using Extension.Domain.Repositories;
-using System;
 using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace PCS.Extension.Services
@@ -24,14 +22,14 @@ namespace PCS.Extension.Services
                 if (entity != null)
                 {
                     var result = _baseRepository.Delete(entity);
-                    if(result > 0)
+                    if (result > 0)
                     {
                         _serviceResult.IsSuccess = true;
                         _serviceResult.Data = result;
                         _serviceResult.UserMsg.Add("Xóa thành công!");
                         _serviceResult.ExtensionCode = ExtensionCode.Success;
                         return _serviceResult;
-                    }   
+                    }
                     else
                     {
                         _serviceResult.IsSuccess = false;
@@ -39,8 +37,8 @@ namespace PCS.Extension.Services
                         _serviceResult.UserMsg.Add("Không xóa được bản ghi!");
                         _serviceResult.ExtensionCode = ExtensionCode.NotValid;
                         return _serviceResult;
-                    }    
-                }   
+                    }
+                }
                 else
                 {
                     _serviceResult.IsSuccess = false;
@@ -48,7 +46,7 @@ namespace PCS.Extension.Services
                     _serviceResult.UserMsg.Add("Không tồn tại bản ghi.");
                     _serviceResult.ExtensionCode = ExtensionCode.NoContent;
                     return _serviceResult;
-                }    
+                }
             }
             catch (Exception)
             {
@@ -117,7 +115,7 @@ namespace PCS.Extension.Services
             try
             {
                 var checkEntity = _baseRepository.GetById(Id);
-                if(checkEntity != null)
+                if (checkEntity != null)
                 {
                     var result = _baseRepository.Update(entity);
                     _serviceResult.IsSuccess = true;
@@ -125,7 +123,7 @@ namespace PCS.Extension.Services
                     _serviceResult.Data = result;
                     _serviceResult.ExtensionCode = ExtensionCode.Success;
                     return _serviceResult;
-                }  
+                }
                 else
                 {
                     _serviceResult.IsSuccess = false;
@@ -133,7 +131,7 @@ namespace PCS.Extension.Services
                     _serviceResult.Data = null;
                     _serviceResult.ExtensionCode = ExtensionCode.NoContent;
                     return _serviceResult;
-                }    
+                }
             }
             catch (Exception)
             {
