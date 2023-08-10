@@ -1,0 +1,15 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Extension.Domain.Entities;
+
+namespace Extension.Domain.Configuration
+{
+    public class SourcePageConfiguration : IEntityTypeConfiguration<SourcePage>
+    {
+        public void Configure(EntityTypeBuilder<SourcePage> builder)
+        {
+            builder.ToTable("SourcePages");
+            builder.HasKey(x => x.SourcePageId);
+        }
+    }
+}
