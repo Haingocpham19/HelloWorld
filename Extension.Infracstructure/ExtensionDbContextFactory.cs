@@ -21,5 +21,4 @@ namespace Extension.Infracstructure
             return new ExtensionDbContext(optionsBuilder.Options);
         }
     }
-
 }
