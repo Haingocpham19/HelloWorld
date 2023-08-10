@@ -2,6 +2,7 @@
 using Extension.Domain.Enum;
 using Extension.Domain.Repositories;
 using System;
+using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace PCS.Extension.Services
 {

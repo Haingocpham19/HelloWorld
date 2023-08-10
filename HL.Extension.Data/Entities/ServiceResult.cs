@@ -1,5 +1,6 @@
 ﻿using Extension.Domain.Enum;
 using System.Collections.Generic;
+using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace Extension.Domain.Entities
 {
@@ -28,7 +29,6 @@ namespace Extension.Domain.Entities
         /// mã code lỗi
         /// </summary>
         public ExtensionCode ExtensionCode { get; set; }
-
         public ServiceResult()
         {
             this.UserMsg = new List<string>();

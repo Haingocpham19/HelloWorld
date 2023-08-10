@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Extension.Domain.CommanConstant
 {
-    public class Contants
+    public static class Contants
     {
         public const string PENDING = "Pending";
         public const string DONE = "Done";

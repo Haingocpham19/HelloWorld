@@ -3,6 +3,7 @@ using Extension.Domain.Enum;
 using Extension.Domain.Repositories;
 using PCS.Extension.Services.interfaces;
 using System;
+using static Extension.Domain.Enum.ExtensionEnums;
 
 namespace PCS.Extension.Services.implement
 {
@@ -24,7 +25,7 @@ namespace PCS.Extension.Services.implement
                     _serviceResult.ExtensionCode = ExtensionCode.NotValid;
                     _serviceResult.Data = null;
                     return _serviceResult;
-                }   
+                }
                 else
                 {
                     var result = _baseRepository.Insert(entity);
@@ -33,7 +34,7 @@ namespace PCS.Extension.Services.implement
                     _serviceResult.ExtensionCode = ExtensionCode.Success;
                     _serviceResult.Data = result;
                     return _serviceResult;
-                }    
+                }
             }
             catch (Exception)
             {

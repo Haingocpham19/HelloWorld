@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HL.Extension.Data\Extension.Domain.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\HL.Extension.Data\Extension.Domain.csproj" />
   </ItemGroup>
 
 </Project>

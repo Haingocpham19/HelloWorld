@@ -9,11 +9,11 @@ namespace Extension.Domain.Repositories
         private ExtensionDbContext _dbContext;
         private readonly DbSet<Entity> _dbSet;
         protected readonly IUnitOfWork _unitOfWork;
-        protected IDbFactory _dbFactory { get; set; }
-        protected ExtensionDbContext DbContext => _dbContext ??= _dbFactory.Init();
+        protected IDbFactory DbFactory { get; set; }
+        protected ExtensionDbContext DbContext => _dbContext ??= DbFactory.Init();
         public BaseRepository(IDbFactory dbFactory, IUnitOfWork unitOfWork)
         {
-            _dbFactory = dbFactory;
+            DbFactory = dbFactory;
             _dbSet = DbContext.Set<Entity>();
             _unitOfWork = unitOfWork;
         }

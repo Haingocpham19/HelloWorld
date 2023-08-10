@@ -1,18 +1,18 @@
-﻿using Extension.Domain.Context;
+﻿using Extension.Domain.Abstractions;
+using Extension.Infracstructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Extension.Domain.Infrastructure
 {
     public class DbFactory : Disposable, IDbFactory
     {
-        private ExtensionDbContext DbContext;
-        private ExtensionDbContext _dbContext;
+        protected ExtensionDbContext? DbContext;
+        private readonly ExtensionDbContext _dbContext;
         public DbFactory(ExtensionDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public ExtensionDbContext Init() => DbContext ?? (DbContext = _dbContext);
-
+        public ExtensionDbContext Init() => DbContext ??= _dbContext;
         protected override void DisposeCore()
         {
             _dbContext?.Dispose();
