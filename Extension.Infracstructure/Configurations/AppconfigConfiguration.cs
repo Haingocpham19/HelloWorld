@@ -8,7 +8,6 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<AppConfig> builder)
         {
-            builder.ToTable("Appconfigs");
             builder.HasKey(x => x.Key);
             builder.Property(x => x.Value).IsRequired(true);
         }

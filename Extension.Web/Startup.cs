@@ -104,19 +104,19 @@ namespace PCS.Extension
                 endpoints.MapControllers();
             });
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                try
-                {
-                    ExtensionDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExtensionDbContext>();
-                    DbInitializer.SeedData(dbContext).Wait();
-                }
-                catch (Exception)
-                {
-                    throw new Exception();
-                }
-                finally { serviceScope.Dispose(); }
-            };
+            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    try
+            //    {
+            //        ExtensionDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExtensionDbContext>();
+            //        DbInitializer.SeedData(dbContext).Wait();
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw new Exception();
+            //    }
+            //    finally { serviceScope.Dispose(); }
+            //};
         }
     }
 }

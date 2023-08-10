@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "Extension": "Server=LAPTOP-FPPLVLTN\\SQLEXPRESS;Database=PCS.Extension.DB;Trusted_Connection=True;"
-  }
-}

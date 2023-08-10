@@ -41,7 +41,7 @@ namespace Extension.Domain.Repositories
             return _unitOfWork.Commit();
         }
 
-        public Entity GetById(object id)
+        public Entity? GetById(object id)
         {
             return _dbSet.Find(id);
         }

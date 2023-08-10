@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Extension.Infracstructure\Extension.Infracstructure.csproj" />
-    <ProjectReference Include="..\HL.Extension.Data\Extension.Domain.csproj" />
   </ItemGroup>
 
 </Project>

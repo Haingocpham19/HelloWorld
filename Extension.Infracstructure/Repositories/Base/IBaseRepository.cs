@@ -5,6 +5,6 @@
         Entity Insert(Entity entity);
         int Update(Entity entity);
         int Delete(Entity entity);
-        Entity GetById(object Id);
+        Entity? GetById(object Id);
     }
 }

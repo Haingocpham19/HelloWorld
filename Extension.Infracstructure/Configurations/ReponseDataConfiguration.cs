@@ -8,7 +8,6 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<Products> builder)
         {
-            builder.ToTable("Products");
             builder.HasKey(x => x.ProductId);
         }
     }

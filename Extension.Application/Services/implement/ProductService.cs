@@ -13,7 +13,7 @@ namespace PCS.Extension.Services.implement
             _productRepository = productRepository;
         }
 
-        public ServiceResult GetProductsByIdClient(Guid clientId)
+        public ServiceResult GetProductsByIdClient(string clientId)
         {
             try
             {
@@ -32,6 +32,11 @@ namespace PCS.Extension.Services.implement
                 _serviceResult.Data = null;
                 return _serviceResult;
             }
+        }
+
+        public ServiceResult GetProductsByIdClient(Guid clientId)
+        {
+            throw new NotImplementedException();
         }
 
         public ServiceResult InsertProducts(Products product)
