@@ -17,7 +17,7 @@ namespace PCS.Extension.Controllers
             _clientCardService = clientCardService;
         }
         [HttpPost]
-        public IActionResult AddClient(ClientCard entity)
+        public override IActionResult Post(ClientCard entity)
         {
             entity.CreateDate = System.DateTime.Now;
             var result = _clientCardService.InsertClient(entity);

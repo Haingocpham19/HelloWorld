@@ -14,14 +14,14 @@ namespace PCS.Extension.SaveJsonFile
         {
             if (!DbContext.Currencies.Any())
             {
-                string currencysJson = File.ReadAllText(@"SaveJsonFile" + Path.DirectorySeparatorChar + "InfoCurrencyEveryDay.json");
+                string currencysJson = File.ReadAllText("SaveJsonFile" + Path.DirectorySeparatorChar + "InfoCurrencyEveryDay.json");
                 List<Currency> currencyList = JsonConvert.DeserializeObject<List<Currency>>(currencysJson);
                 await DbContext.Currencies.AddRangeAsync(currencyList);
                 await DbContext.SaveChangesAsync();
             }
             if (!DbContext.SourcePages.Any())
             {
-                string currencysJson = System.IO.File.ReadAllText(@"SaveJsonFile" + Path.DirectorySeparatorChar + "InfoSourcePage.json");
+                string currencysJson = System.IO.File.ReadAllText("SaveJsonFile" + Path.DirectorySeparatorChar + "InfoSourcePage.json");
                 List<SourcePage> sourcePageList = JsonConvert.DeserializeObject<List<SourcePage>>(currencysJson);
                 await DbContext.SourcePages.AddRangeAsync(sourcePageList);
                 await DbContext.SaveChangesAsync();

@@ -89,7 +89,7 @@ namespace PCS.Extension
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChromeExtension API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DDD Pattern Example API");
 
             });
 
