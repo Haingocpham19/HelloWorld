@@ -1,12 +1,13 @@
 ﻿using Extension.Domain.Abstractions;
 using Extension.Infracstructure;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Extension.Domain.Repositories
 {
-    public class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        public readonly DbSet<Entity> _dbSet;
+        public readonly DbSet<TEntity> _dbSet;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDbFactory _dbFactory;
 
@@ -17,33 +18,43 @@ namespace Extension.Domain.Repositories
             _dbSet = GetDbSet();
         }
 
-        public DbSet<Entity> GetDbSet()
+        public DbSet<TEntity> GetDbSet()
         {
-            return _dbFactory.Init().Set<Entity>();
+            return _dbFactory.Init().Set<TEntity>();
         }
 
-        public int Delete(Entity entity)
+        public int Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
             return _unitOfWork.Commit();
         }
 
-        public Entity Insert(Entity entity)
+        public TEntity Insert(TEntity entity)
         {
             _dbSet.Add(entity);
             _unitOfWork.Commit();
             return entity;
         }
 
-        public int Update(Entity entity)
+        public int Update(TEntity entity)
         {
             _dbSet.Update(entity);
             return _unitOfWork.Commit();
         }
 
-        public Entity? GetById(object id)
+        public TEntity? GetById(object id)
         {
             return _dbSet.Find(id);
+        }
+
+        public IList<TEntity> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncEnumerable<TEntity> Find(Expression<Func<TEntity, long>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

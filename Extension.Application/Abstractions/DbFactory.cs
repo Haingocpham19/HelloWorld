@@ -5,16 +5,23 @@ namespace Extension.Domain.Infrastructure
 {
     public class DbFactory : Disposable, IDbFactory
     {
-        protected ExtensionDbContext? DbContext;
-        private readonly ExtensionDbContext _dbContext;
         public DbFactory(ExtensionDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public ExtensionDbContext Init() => DbContext ??= _dbContext;
+
+        private ExtensionDbContext DbContext;
+        static ExtensionDbContext? _dbContext;
+
+        ExtensionDbContext IDbFactory.Init() => _dbContext ??= DbContext;
+
         protected override void DisposeCore()
         {
-            _dbContext?.Dispose();
+            if (_dbContext != null)
+            {
+                _dbContext.Dispose();
+            }
         }
+
     }
 }

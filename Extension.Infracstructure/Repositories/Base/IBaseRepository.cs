@@ -1,10 +1,14 @@
-﻿namespace Extension.Domain.Repositories
+﻿using System.Linq.Expressions;
+
+namespace Extension.Domain.Repositories
 {
-    public interface IBaseRepository<Entity>
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
-        Entity Insert(Entity entity);
-        int Update(Entity entity);
-        int Delete(Entity entity);
-        Entity? GetById(object Id);
+        TEntity Insert(TEntity entity);
+        int Update(TEntity entity);
+        int Delete(TEntity entity);
+        TEntity? GetById(object Id);
+        IList<TEntity> GetAll();
+        IAsyncEnumerable<TEntity> Find(Expression<Func<TEntity,long>> predicate);
     }
 }

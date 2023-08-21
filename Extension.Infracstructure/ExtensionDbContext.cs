@@ -6,6 +6,13 @@ namespace Extension.Infracstructure
 {
     public class ExtensionDbContext : DbContext
     {
+        public ExtensionDbContext()
+        {
+            Products = Set<Products>();
+            Currencies = Set<Currency>();
+            SourcePages = Set<SourcePage>();
+            ClientCards = Set<ClientCard>();
+        }
         public ExtensionDbContext(DbContextOptions options) : base(options)
         {
             Products = Set<Products>();
