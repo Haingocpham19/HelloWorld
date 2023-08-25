@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using PCS.Extension.SaveJsonFile;
 using PCS.Extension.Services;
 using PCS.Extension.Services.implement;
 using PCS.Extension.Services.interfaces;
@@ -30,8 +29,9 @@ namespace PCS.Extension
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("Extension");
-            services.AddDbContext<ExtensionDbContext>(options => options.UseSqlServer(connectionString));
-            //services.AddTransient<IResponseDataRepository, ResponseDataRepository>();
+
+            services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IDbFactory, DbFactory>();

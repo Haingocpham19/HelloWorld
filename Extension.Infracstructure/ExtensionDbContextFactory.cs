@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Extension.Infracstructure
 {
@@ -13,12 +14,12 @@ namespace Extension.Infracstructure
                 .AddJsonFile("appsetting.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("Extension");
+            string connectionString = configuration.GetConnectionString("Extension");
 
-            var optionsBuilder = new DbContextOptionsBuilder<ExtensionDbContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            var builder = new DbContextOptionsBuilder<ExtensionDbContext>();
+            builder.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
 
-            return new ExtensionDbContext(optionsBuilder.Options);
+            return new ExtensionDbContext(builder.Options);
         }
     }
 }
