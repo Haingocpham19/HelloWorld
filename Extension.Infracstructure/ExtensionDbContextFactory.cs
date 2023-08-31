@@ -11,7 +11,7 @@ namespace Extension.Infracstructure
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsetting.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             string connectionString = configuration.GetConnectionString("Extension");
