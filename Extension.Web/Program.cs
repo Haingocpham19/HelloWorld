@@ -1,7 +1,9 @@
+using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System;
 
-namespace PCS.Extension
+namespace Extension
 {
     public static class Program
     {

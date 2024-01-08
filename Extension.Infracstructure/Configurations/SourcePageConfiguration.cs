@@ -8,7 +8,7 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<SourcePage> builder)
         {
-            builder.HasKey(x => x.SourcePageId);
+            builder.HasKey(x => x.Id);
         }
     }
 }

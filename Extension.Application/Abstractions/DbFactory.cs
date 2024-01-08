@@ -5,7 +5,7 @@ namespace Extension.Domain.Infrastructure
 {
     public class DbFactory : Disposable, IDbFactory
     {
-        public DbFactory(ExtensionDbContext dbContext)
+        public DbFactory(ExtensionDbContext? dbContext)
         {
             _dbContext = dbContext;
         }
@@ -22,6 +22,5 @@ namespace Extension.Domain.Infrastructure
                 _dbContext.Dispose();
             }
         }
-
     }
 }

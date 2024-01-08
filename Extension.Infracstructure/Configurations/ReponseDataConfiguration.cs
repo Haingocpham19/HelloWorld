@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Extension.Domain.Configuration
 {
-    public class ReponseDataConfiguration : IEntityTypeConfiguration<Products>
+    public class ReponseDataConfiguration : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Products> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.ProductId);
+            builder.HasKey(x => x.Id);
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Extension.Infracstructure
     {
         public ExtensionDbContext()
         {
-            Products = Set<Products>();
+            Products = Set<Product>();
             Currencies = Set<Currency>();
             SourcePages = Set<SourcePage>();
             ClientCards = Set<ClientCard>();
         }
         public ExtensionDbContext(DbContextOptions options) : base(options)
         {
-            Products = Set<Products>();
+            Products = Set<Product>();
             Currencies = Set<Currency>();
             SourcePages = Set<SourcePage>();
             ClientCards = Set<ClientCard>();
@@ -26,7 +26,7 @@ namespace Extension.Infracstructure
             //base.OnModelCreating(modelBuilder);
 
         }
-        public DbSet<Products> Products { set; get; }
+        public DbSet<Product> Products { set; get; }
         public DbSet<Currency> Currencies { set; get; }
         public DbSet<SourcePage> SourcePages { set; get; }
         public DbSet<ClientCard> ClientCards { get; set; }

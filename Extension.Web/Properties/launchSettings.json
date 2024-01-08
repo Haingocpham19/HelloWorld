@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PCS.Extension": {
+    "Extension": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

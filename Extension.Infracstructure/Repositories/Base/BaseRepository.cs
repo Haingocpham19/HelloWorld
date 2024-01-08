@@ -1,60 +1,89 @@
 ﻿using Extension.Domain.Abstractions;
-using Extension.Infracstructure;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 
 namespace Extension.Domain.Repositories
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TPrimaryKey, TEntity> : IBaseRepository<TPrimaryKey, TEntity>
+        where TEntity : class
     {
-        public readonly DbSet<TEntity> _dbSet;
+        private readonly DbSet<TEntity> _dbSet;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDbFactory _dbFactory;
 
         public BaseRepository(IDbFactory dbFactory, IUnitOfWork unitOfWork)
         {
-            _dbFactory = dbFactory;
+            if (dbFactory == null)
+                throw new ArgumentNullException(nameof(dbFactory));
+
+            if (unitOfWork == null)
+                throw new ArgumentNullException(nameof(unitOfWork));
+
             _unitOfWork = unitOfWork;
-            _dbSet = GetDbSet();
+            _dbSet = dbFactory.Init().Set<TEntity>();
         }
 
-        public DbSet<TEntity> GetDbSet()
-        {
-            return _dbFactory.Init().Set<TEntity>();
-        }
-
-        public int Delete(TEntity entity)
-        {
-            _dbSet.Remove(entity);
-            return _unitOfWork.Commit();
-        }
-
-        public TEntity Insert(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
             _dbSet.Add(entity);
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
             return entity;
         }
 
-        public int Update(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             _dbSet.Update(entity);
-            return _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
+            return entity;
         }
 
-        public TEntity? GetById(object id)
+        public async Task<TPrimaryKey> DeleteAsync(TPrimaryKey id)
         {
-            return _dbSet.Find(id);
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                await _unitOfWork.CommitAsync();
+            }
+            return id;
         }
 
-        public IList<TEntity> GetAll()
+        public async Task<TEntity> GetByIdAsync(TPrimaryKey id)
         {
-            throw new NotImplementedException();
+            // Get the primary key properties
+            var keyProperties = typeof(TEntity)
+                .GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(KeyAttribute)))
+                .ToList();
+
+            // Ensure the entity has a key defined
+            if (keyProperties.Count == 0)
+            {
+                throw new InvalidOperationException($"Entity of type {typeof(TEntity).Name} does not have a primary key defined.");
+            }
+
+            // Construct the expression for the primary key
+            var parameter = Expression.Parameter(typeof(TEntity), "x");
+            var property = Expression.Property(parameter, keyProperties[0].Name);
+            var equals = Expression.Equal(property, Expression.Constant(id));
+            var lambda = Expression.Lambda<Func<TEntity, bool>>(equals, parameter);
+
+            // Execute the query to find the entity by its primary key
+            return await _dbSet.FirstOrDefaultAsync(lambda);
         }
 
-        public IAsyncEnumerable<TEntity> Find(Expression<Func<TEntity, long>> predicate)
+        public async Task<IList<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
+        }
+
+        public async IAsyncEnumerable<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            // Implement async version of Find using IQueryable and AsAsyncEnumerable
+            await foreach (var entity in _dbSet.Where(predicate).AsAsyncEnumerable())
+            {
+                yield return entity;
+            }
         }
     }
 }

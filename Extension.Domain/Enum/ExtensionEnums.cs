@@ -2,7 +2,7 @@
 {
     public static class ExtensionEnums
     {
-        public enum ExtensionCode
+        public enum MessageCode
         {
             /// <summary>
             /// Dữ liệu hợp lệ

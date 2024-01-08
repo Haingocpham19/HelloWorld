@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PCS.Extension.SaveJsonFile
+namespace Extension.SaveJsonFile
 {
     public static class DbInitializer
     {

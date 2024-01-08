@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Extension.Domain.Entities.Core;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Extension.Domain.Entities
 {
-    public class Currency
+    public class Currency : FullAuditedEntity<int>
     {
         [Key]
-        public int CurencyId { get; set; }
+        public int Id { get; set; }
         public string CurrencyName { get; set; }
         public string CurrencyCode { get; set; }
         public decimal ExchangeRate { get; set; }
-        public DateTime GetDateTime { set; get; }
 
-        public ICollection<Products> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

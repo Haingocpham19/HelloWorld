@@ -35,26 +35,50 @@ namespace Extension.Infracstructure.Migrations
 
             modelBuilder.Entity("Extension.Domain.Entities.ClientCard", b =>
                 {
-                    b.Property<Guid>("ClientCardId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
 
-                    b.HasKey("ClientCardId");
+                    b.HasKey("Id");
 
                     b.ToTable("ClientCards");
                 });
 
             modelBuilder.Entity("Extension.Domain.Entities.Currency", b =>
                 {
-                    b.Property<int>("CurencyId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("CurrencyCode")
                         .HasColumnType("longtext");
@@ -62,34 +86,64 @@ namespace Extension.Infracstructure.Migrations
                     b.Property<string>("CurrencyName")
                         .HasColumnType("longtext");
 
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<decimal>("ExchangeRate")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<DateTime>("GetDateTime")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("CurencyId");
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("Extension.Domain.Entities.Products", b =>
+            modelBuilder.Entity("Extension.Domain.Entities.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Availability")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ClientCardId")
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid?>("ClientCardId1")
+                    b.Property<Guid>("ClientCardId")
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal?>("LastPrice")
                         .HasColumnType("decimal(65,30)");
@@ -112,9 +166,9 @@ namespace Extension.Infracstructure.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("longtext");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ClientCardId1");
+                    b.HasIndex("ClientCardId");
 
                     b.HasIndex("CurrencyId");
 
@@ -125,26 +179,49 @@ namespace Extension.Infracstructure.Migrations
 
             modelBuilder.Entity("Extension.Domain.Entities.SourcePage", b =>
                 {
-                    b.Property<int>("SourcePageId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Domain")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("PageName")
                         .HasColumnType("longtext");
 
-                    b.HasKey("SourcePageId");
+                    b.HasKey("Id");
 
                     b.ToTable("SourcePages");
                 });
 
-            modelBuilder.Entity("Extension.Domain.Entities.Products", b =>
+            modelBuilder.Entity("Extension.Domain.Entities.Product", b =>
                 {
                     b.HasOne("Extension.Domain.Entities.ClientCard", "ClientCard")
                         .WithMany("Products")
-                        .HasForeignKey("ClientCardId1");
+                        .HasForeignKey("ClientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Extension.Domain.Entities.Currency", "Currency")
                         .WithMany("Products")

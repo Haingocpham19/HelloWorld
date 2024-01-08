@@ -8,7 +8,7 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<Currency> builder)
         {
-            builder.HasKey(x => x.CurencyId);
+            builder.HasKey(x => x.Id);
         }
     }
 }
