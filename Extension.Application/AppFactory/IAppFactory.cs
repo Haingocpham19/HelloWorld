@@ -14,7 +14,7 @@ namespace Extension.Application.AppFactory
         TScopedService GetScopedService<TScopedService>();
 
         // external
-        IConfiguration Configuration { get; }
+        //IConfiguration Configuration { get; }
         IMapper ObjectMapper { get; }
     }
 }

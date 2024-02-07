@@ -9,7 +9,7 @@ namespace Extension.Domain.Repositories
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TPrimaryKey> DeleteAsync(TPrimaryKey entity);
         Task<TEntity> GetByIdAsync(TPrimaryKey id);
-        Task<IList<TEntity>> GetAllAsync();
+        IQueryable<TEntity> GetAllEntities();
         IAsyncEnumerable<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

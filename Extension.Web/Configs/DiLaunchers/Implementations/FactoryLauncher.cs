@@ -3,9 +3,9 @@ using Extension.Web.Configs.DiLaunchers.Infrastructure;
 
 namespace Extension.Web.Configs.DiLaunchers.Implementations
 {
-    public class FactoryLauncher : IDiLauncherFactory
+    public static class FactoryLauncher
     {
-        public IDiLauncher CreateDiLauncher(LauncherType type)
+        public static IDiLauncher CreateDiLauncher(LauncherType? type)
         {
             switch (type)
             {

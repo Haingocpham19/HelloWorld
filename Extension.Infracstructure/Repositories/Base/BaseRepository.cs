@@ -1,6 +1,7 @@
 ﻿using Extension.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Extension.Domain.Repositories
@@ -72,9 +73,9 @@ namespace Extension.Domain.Repositories
             return await _dbSet.FirstOrDefaultAsync(lambda);
         }
 
-        public async Task<IList<TEntity>> GetAllAsync()
+        public IQueryable<TEntity> GetAllEntities()
         {
-            return await _dbSet.ToListAsync();
+            return _dbSet.AsQueryable<TEntity>(); // This will return an IQueryable
         }
 
         public async IAsyncEnumerable<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)

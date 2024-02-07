@@ -1,37 +1,27 @@
-﻿namespace Extension.Domain.Enum
+﻿using System.ComponentModel;
+
+namespace Extension.Domain.Enum
 {
     public static class ExtensionEnums
     {
         public enum MessageCode
         {
-            /// <summary>
-            /// Dữ liệu hợp lệ
-            /// </summary>
+            [Description("Is Valid")]
             IsValid = 100,
 
-            /// <summary>
-            /// Thành công
-            /// </summary>
+            [Description("Successfully")]
             Success = 200,
 
-            /// <summary>
-            /// không có nội dung
-            /// </summary>
+            [Description("No Content")]
             NoContent = 204,
 
-            /// <summary>
-            /// Dữ liệu không hợp lệ
-            /// </summary>
+            [Description("Not Valid")]
             NotValid = 400,
 
-            /// <summary>
-            /// không tìm thấy dữ liệu
-            /// </summary>
+            [Description("Not Found")]
             NotFound = 404,
 
-            /// <summary>
-            /// Lỗi
-            /// </summary>
+            [Description("Unexpected")]
             Exeption = 500,
         }
     }

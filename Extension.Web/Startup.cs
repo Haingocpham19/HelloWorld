@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using Extension.Domain.Enum;
 using Extension.Infracstructure;
+using Extension.Web.Configs.DiLaunchers.Implementations;
+using Extension.Web.Configs.DiLaunchers.Infrastructure;
+using Extension.Web.Configs.Mapper;
 using Hangfire;
 using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
@@ -9,7 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PuppeteerSharp;
 using System;
+using System.ComponentModel;
 using System.Transactions;
 
 namespace Extension
@@ -77,15 +83,8 @@ namespace Extension
                 });
             });
 
-
-            // AutoMapper configuration
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                //mc.AddProfile(new MappingProfile()); 
-            });
-
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            var launcher = FactoryLauncher.CreateDiLauncher(LauncherType.Debug);
+            launcher.Run(services);
 
             services.AddControllers();
         }

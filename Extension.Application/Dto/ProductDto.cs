@@ -1,7 +1,9 @@
-﻿using Extension.Domain.Entities;
+﻿using AutoMapper;
+using Extension.Domain.Entities;
 
 namespace Extension.Application.Dto
 {
+    [AutoMap(typeof(Product))] // AutoMap attribute from AutoMapper
     public class ProductDto
     {
         public long Id { get; set; }
