@@ -2,7 +2,7 @@ import { DetailsList, DetailsListLayoutMode, IColumn, Spinner, SpinnerSize } fro
 import { ApiClient, ICurrencyDto } from 'app/generated/backend';
 import React, { useEffect, useState } from 'react';
 
-const Groups: React.FC = () => {
+const ExchangeRates: React.FC = () => {
     const [data, setData] = useState({
         groups: [] as ICurrencyDto[],
         isFetching: false
@@ -46,7 +46,7 @@ const Groups: React.FC = () => {
 
     return (
         <>
-            <h2>Groups</h2>
+            <h2>Exchange Rate</h2>
             <DetailsList
                 items={data.groups.map((group) => {
                     return {
@@ -61,4 +61,4 @@ const Groups: React.FC = () => {
     );
 };
 
-export default Groups;
+export default ExchangeRates;

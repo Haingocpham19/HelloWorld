@@ -1,6 +1,5 @@
 import { IButtonProps, Icon, Image, initializeIcons, Nav, Text } from '@fluentui/react';
 import About from 'app/pages/about/About';
-import Groups from 'app/pages/groups/Groups';
 import Home from 'app/pages/home/Home';
 import msftLogo from 'app/static/msftLogo.png';
 import 'office-ui-fabric-core/dist/css/fabric.css';
@@ -9,6 +8,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 import * as serviceWorker from '../serviceWorker';
 import styles from './App.module.scss';
+import ExchangeRates from './pages/exchange-rates/Exchange';
 
 initializeIcons();
 
@@ -45,9 +45,9 @@ const App: React.FC = () => {
                                                 key: 'about'
                                             },
                                             {
-                                                name: 'Groups',
-                                                url: '/groups',
-                                                key: 'groups'
+                                                name: 'Exchange Rates',
+                                                url: '/exchange-rates',
+                                                key: 'exchange rate'
                                             }
                                         ]
                                     }
@@ -58,7 +58,7 @@ const App: React.FC = () => {
                             <Routes>
                                 <Route path="/" element={<Home />} />
                                 <Route path="/about" element={<About />} />
-                                <Route path="/groups" element={<Groups />} />
+                                <Route path="/exchange-rates" element={<ExchangeRates />} />
                             </Routes>
                         </div>
                     </div>
