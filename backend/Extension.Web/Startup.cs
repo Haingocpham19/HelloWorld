@@ -61,32 +61,36 @@ namespace Extension
                 options.AddDefaultPolicy(
                     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "v1",
-                    Title = "ChromeExtension API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
+                    c.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = new Uri("https://twitter.com/spboyer"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
-                    }
+                        Version = "v1",
+                        Title = "ChromeExtension API",
+                        Description = "A simple example ASP.NET Core Web API",
+                        TermsOfService = new Uri("https://example.com/terms"),
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Hai Ngoc Pham",
+                            Email = string.Empty,
+                            Url = new Uri("https://facebook.com/Haingocpham19"),
+                        },
+                        License = new OpenApiLicense
+                        {
+                            Name = "Hai Ngoc Pham",
+                            Url = new Uri("https://github.com/Haingocpham19"),
+                        }
+                    });
                 });
-            });
+                //.AddSwaggerDocument();
 
             var launcher = FactoryLauncher.CreateDiLauncher(LauncherType.Debug);
             launcher.Run(services);
 
             services.AddControllers();
+
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,16 +100,19 @@ namespace Extension
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseOpenApi();
+
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DDD Pattern Example API");
+
+                });
             }
+
             app.UseCors();
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DDD Pattern Example API");
-
-            });
 
             app.UseHttpsRedirection();
 

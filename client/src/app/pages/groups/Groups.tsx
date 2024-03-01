@@ -1,19 +1,18 @@
 import { DetailsList, DetailsListLayoutMode, IColumn, Spinner, SpinnerSize } from '@fluentui/react';
-import { ApiClient, IGroupDto } from 'app/generated/backend';
+import { ApiClient, ICurrencyDto } from 'app/generated/backend';
 import React, { useEffect, useState } from 'react';
 
 const Groups: React.FC = () => {
     const [data, setData] = useState({
-        groups: [] as IGroupDto[],
+        groups: [] as ICurrencyDto[],
         isFetching: false
     });
 
-    const groupKeys: IGroupDto = {
+    const groupKeys: ICurrencyDto = {
         id: 0,
-        name: '',
-        isActive: false,
-        createdDate: new Date(),
-        updatedDate: new Date()
+        currencyName: '',
+        currencyCode: '',
+        exchangeRate: 0,
     };
 
     const columns = Object.keys(groupKeys).map((key): IColumn => {
@@ -33,7 +32,7 @@ const Groups: React.FC = () => {
         const fetchData = async () => {
             try {
                 setData({ groups: data.groups, isFetching: true });
-                const result = await new ApiClient(process.env.REACT_APP_API_BASE).groups_GetAllGroups();
+                const result = await new ApiClient(process.env.REACT_APP_API_BASE).getExchangeRate_Get();
                 setData({ groups: result, isFetching: false });
             } catch (e) {
                 console.log(e);
@@ -52,9 +51,6 @@ const Groups: React.FC = () => {
                 items={data.groups.map((group) => {
                     return {
                         ...group,
-                        createdDate: group.createdDate.toLocaleString(),
-                        updatedDate: group.updatedDate.toLocaleString(),
-                        isActive: group.isActive.toString()
                     };
                 })}
                 columns={columns}

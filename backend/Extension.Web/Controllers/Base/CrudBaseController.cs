@@ -6,6 +6,7 @@ using Extension.Domain.Common;
 using Extension.Domain.Infrastructure;
 using Extension.Domain.Repositories;
 using Extension.Services;
+using Extension.Web.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -13,8 +14,7 @@ using System.Threading.Tasks;
 
 namespace Extension.Web.Controllers
 {
-
-    public class CrudBaseController<TPrimaryKey, TEntity, TEntityDto, TPagedInput, TPagedOutput> : ControllerBase
+    public class CrudBaseController<TPrimaryKey, TEntity, TEntityDto, TPagedInput, TPagedOutput> : BaseController
         where TEntity : class
         where TEntityDto : class
         where TPagedInput : PagedFullInputDto

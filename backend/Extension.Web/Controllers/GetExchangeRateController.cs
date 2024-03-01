@@ -1,6 +1,7 @@
 ﻿using Extension.Common;
 using Extension.Domain.Entities;
 using Extension.Infracstructure;
+using Extension.Web.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Extension.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GetExchangeRateController : ControllerBase
+    public class GetExchangeRateController : BaseController
     {
         // GET: api/<GetExchangeRateController>
         private readonly ExtensionDbContext extensionDbContext;

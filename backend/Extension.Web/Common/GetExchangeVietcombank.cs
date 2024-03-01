@@ -16,7 +16,7 @@ namespace Extension.Common
         {
             var options = new LaunchOptions
             {
-                Headless = false,
+                Headless = true,
                 ExecutablePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
             };
 
