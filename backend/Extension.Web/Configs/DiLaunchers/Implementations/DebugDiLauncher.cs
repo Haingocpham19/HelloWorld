@@ -4,7 +4,7 @@ using Extension.Domain.Abstractions;
 using Extension.Domain.Enum;
 using Extension.Domain.Infrastructure;
 using Extension.Domain.Repositories;
-using Extension.Infracstructure;
+using Extension.Infrastructure;
 using Extension.Services;
 using Extension.Web.Configs.DiLaunchers.Infrastructure;
 using Extension.Web.Configs.Mapper;

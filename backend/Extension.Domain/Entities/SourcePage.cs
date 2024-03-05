@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Extension.Domain.Entities
 {
-    public class SourcePage:FullAuditedEntity<int>
+    public class SourcePage : FullAuditedEntity<int>
     {
         [Key]
         public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Extension.Domain.Entities;
 using Extension.Domain.Enum;
-using Extension.Infracstructure;
+using Extension.Infrastructure;
 using Extension.Web.Configs.DiLaunchers.Implementations;
 using Extension.Web.Configs.DiLaunchers.Infrastructure;
 using Extension.Web.Configs.Mapper;
@@ -8,7 +9,9 @@ using Hangfire;
 using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -51,7 +54,6 @@ namespace Extension
             {
                 cfg.UseStorage(storage);
             });
-
             services.AddHangfireServer();
 
             services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));

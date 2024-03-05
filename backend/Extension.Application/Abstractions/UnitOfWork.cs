@@ -1,5 +1,5 @@
 ﻿using Extension.Domain.Abstractions;
-using Extension.Infracstructure;
+using Extension.Infrastructure;
 
 namespace Extension.Domain.Infrastructure
 {

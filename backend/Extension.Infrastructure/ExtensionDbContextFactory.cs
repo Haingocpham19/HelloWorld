@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Extension.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Extension.Infracstructure
+namespace Extension.Infrastructure
 {
     public class ExtensionDbContextFactory : IDesignTimeDbContextFactory<ExtensionDbContext>
     {

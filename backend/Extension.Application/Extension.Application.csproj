@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="AppServices\Category\Currency\Bussiness\Command\" />
+    <Folder Include="AppServices\Category\Currency\Bussiness\Queries\" />
+    <Folder Include="AppServices\Category\Currency\Dto\" />
     <Folder Include="Behavirous\" />
   </ItemGroup>
 
@@ -15,7 +18,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Extension.Infracstructure\Extension.Infracstructure.csproj" />
+    <ProjectReference Include="..\Extension.Infrastructure\Extension.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\resources-jp.Designer.cs">
+      <DependentUpon>resources-jp.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\resources-vi.Designer.cs">
+      <DependentUpon>resources-vi.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\resources-en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>resources-en.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\resources-jp.resx">
+      <LastGenOutput>resources-jp.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\resources-vi.resx">
+      <LastGenOutput>resources-vi.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\resources-en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>resources-en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

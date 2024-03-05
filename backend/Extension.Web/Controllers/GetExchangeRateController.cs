@@ -1,6 +1,6 @@
 ﻿using Extension.Common;
 using Extension.Domain.Entities;
-using Extension.Infracstructure;
+using Extension.Infrastructure;
 using Extension.Web.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

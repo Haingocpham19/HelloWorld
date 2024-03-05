@@ -1,4 +1,4 @@
-﻿using Extension.Infracstructure;
+﻿using Extension.Infrastructure;
 
 namespace Extension.Domain.Abstractions
 {
