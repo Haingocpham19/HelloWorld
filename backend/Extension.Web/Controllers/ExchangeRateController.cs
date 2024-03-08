@@ -2,28 +2,31 @@
 using Extension.Domain.Entities;
 using Extension.Infrastructure;
 using Extension.Web.Controllers.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Extension.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("~/private-api/[controller]")]
     [ApiController]
-    public class GetExchangeRateController : BaseController
+    public class ExchangeRateController : BaseController
     {
         // GET: api/<GetExchangeRateController>
         private readonly ExtensionDbContext extensionDbContext;
-        public GetExchangeRateController(ExtensionDbContext ExtensionDbContext)
+        public ExchangeRateController(ExtensionDbContext ExtensionDbContext)
         {
             extensionDbContext = ExtensionDbContext;
         }
+
         [HttpGet]
         public async Task<List<Currency>> Get()
         {
             return await GetExchangeVietcombank.GetExchange();
         }
+
         [HttpPost]
         public async Task<List<Currency>> Post()
         {

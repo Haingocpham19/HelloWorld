@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal.Mappers;
 using Extension.Domain.Repositories;
-using Microsoft.Extensions.Configuration;
 
 namespace Extension.Application.AppFactory
 {
@@ -16,5 +14,8 @@ namespace Extension.Application.AppFactory
         // external
         //IConfiguration Configuration { get; }
         IMapper ObjectMapper { get; }
+
+        Task<TResponse> SendCqrsRequest<TResponse>(MediatR.IRequest<TResponse> request);
+
     }
 }

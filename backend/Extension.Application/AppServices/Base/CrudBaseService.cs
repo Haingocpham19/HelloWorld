@@ -163,7 +163,7 @@ namespace Extension.Services
         {
             try
             {
-                var entity =  Repository.GetAllEntities();
+                var entity =  Repository.GetAll();
                 if (entity != null)
                 {
                     return new CommonResultDto<IQueryable<TPagedOutput>>

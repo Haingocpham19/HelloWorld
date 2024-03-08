@@ -1,9 +1,13 @@
 ﻿using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace HangfireDemo.Controllers
 {
+    [Authorize]
+    [Route("~/private-api/[controller]")]
+    [ApiController]
     public class HangfireController : Controller
     {
         private readonly IBackgroundJobClient _backgroundJobClient;

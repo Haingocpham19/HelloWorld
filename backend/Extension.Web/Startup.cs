@@ -1,24 +1,16 @@
-﻿using AutoMapper;
-using Extension.Domain.Entities;
-using Extension.Domain.Enum;
+﻿using Extension.Domain.Enum;
 using Extension.Infrastructure;
 using Extension.Web.Configs.DiLaunchers.Implementations;
-using Extension.Web.Configs.DiLaunchers.Infrastructure;
-using Extension.Web.Configs.Mapper;
 using Hangfire;
 using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using PuppeteerSharp;
 using System;
-using System.ComponentModel;
 using System.Transactions;
 
 namespace Extension
@@ -37,7 +29,7 @@ namespace Extension
         {
             var connectionString = Configuration.GetConnectionString("Extension");
 
-            var options =  new MySqlStorageOptions
+            var options = new MySqlStorageOptions
             {
                 TransactionIsolationLevel = IsolationLevel.ReadCommitted,
                 QueuePollInterval = TimeSpan.FromSeconds(15),
@@ -69,7 +61,7 @@ namespace Extension
                     c.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "ChromeExtension API",
+                        Title = "Application API",
                         Description = "A simple example ASP.NET Core Web API",
                         TermsOfService = new Uri("https://example.com/terms"),
                         Contact = new OpenApiContact
@@ -84,8 +76,24 @@ namespace Extension
                             Url = new Uri("https://github.com/Haingocpham19"),
                         }
                     });
+
+                    // If you have JWT authentication, include the following lines to enable authentication in Swagger
+                    var securityScheme = new OpenApiSecurityScheme
+                    {
+                        Name = "JWT Authentication",
+                        Description = "Enter your JWT token",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT"
+                    };
+                    c.AddSecurityDefinition("Bearer", securityScheme);
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        { securityScheme, new[] { "Bearer" } }
+                    });
                 });
-                //.AddSwaggerDocument();
+            //.AddSwaggerDocument();
 
             var launcher = FactoryLauncher.CreateDiLauncher(LauncherType.Debug);
             launcher.Run(services);
@@ -129,20 +137,6 @@ namespace Extension
                 endpoints.MapControllers();
                 endpoints.MapHangfireDashboard();
             });
-
-            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    try
-            //    {
-            //        ExtensionDbContext dbContext = serviceScope.ServiceProvider.GetRequiredService<ExtensionDbContext>();
-            //        DbInitializer.SeedData(dbContext).Wait();
-            //    }
-            //    catch (Exception)
-            //    {
-            //        throw new Exception();
-            //    }
-            //    finally { serviceScope.Dispose(); }
-            //};
         }
     }
 }

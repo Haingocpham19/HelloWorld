@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Extension.Domain.Repositories;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +22,9 @@ namespace Extension.Application.AppFactory
 
         public IMapper ObjectMapper => LazyGetRequiredService(ref _objectMapper);
         private IMapper _objectMapper;
+
+        private IMediator _mediator;
+        public IMediator Mediator => LazyGetRequiredService(ref _mediator);
 
         public TProxyOrService GetProxyOrServiceDependency<TProxyOrService>()
         {
@@ -67,6 +69,11 @@ namespace Extension.Application.AppFactory
                 _services[key] = service;
             }
             return (TScopedService)service;
+        }
+
+        public async Task<TResponse> SendCqrsRequest<TResponse>(IRequest<TResponse> request)
+        {
+            return await Mediator.Send(request);
         }
 
         #region LazyGetRequiredService

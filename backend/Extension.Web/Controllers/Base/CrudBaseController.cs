@@ -52,7 +52,7 @@ namespace Extension.Web.Controllers
         protected virtual async Task<IQueryable<TPagedOutput>> GetQueryPagingLinq(TPagedInput input)
         {
             var repo = Factory.Repository<TPrimaryKey, TEntity>()
-            .GetAllEntities();
+            .GetAll();
             return repo.Select(item => Factory.ObjectMapper.Map<TPagedOutput>(item));
         }
 

@@ -19,7 +19,7 @@ export class ApiClient {
     }
 
     hangfire_FireAndForgetJob(): Promise<string> {
-        let url_ = this.baseUrl + "/IFireAndForgetJob";
+        let url_ = this.baseUrl + "/private-api/Hangfire/IFireAndForgetJob";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -54,7 +54,7 @@ export class ApiClient {
     }
 
     hangfire_DelayedJob(): Promise<string> {
-        let url_ = this.baseUrl + "/IDelayedJob";
+        let url_ = this.baseUrl + "/private-api/Hangfire/IDelayedJob";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -89,7 +89,7 @@ export class ApiClient {
     }
 
     hangfire_ContinuousJob(): Promise<string> {
-        let url_ = this.baseUrl + "/IContinuousJob";
+        let url_ = this.baseUrl + "/private-api/Hangfire/IContinuousJob";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -124,7 +124,7 @@ export class ApiClient {
     }
 
     hangfire_RecurringJobs(): Promise<string> {
-        let url_ = this.baseUrl + "/IRecurringJob";
+        let url_ = this.baseUrl + "/private-api/Hangfire/IRecurringJob";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -159,7 +159,7 @@ export class ApiClient {
     }
 
     getExchangeRate_Get(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/api/GetExchangeRate";
+        let url_ = this.baseUrl + "/private-api/GetExchangeRate";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -200,7 +200,7 @@ export class ApiClient {
     }
 
     getExchangeRate_Post(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/api/GetExchangeRate";
+        let url_ = this.baseUrl + "/private-api/GetExchangeRate";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -241,7 +241,7 @@ export class ApiClient {
     }
 
     currency_GetPagingList(input: PagedFullInputDto): Promise<PagedResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/api/Currency/List";
+        let url_ = this.baseUrl + "/private-api/Currency/List";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -279,7 +279,7 @@ export class ApiClient {
     }
 
     currency_GetById(id: number): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/api/Currency/GetById/{id}";
+        let url_ = this.baseUrl + "/private-api/Currency/GetById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -316,7 +316,7 @@ export class ApiClient {
     }
 
     currency_Create(input: CurrencyDto): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/api/Currency/Create";
+        let url_ = this.baseUrl + "/private-api/Currency/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -354,7 +354,7 @@ export class ApiClient {
     }
 
     currency_Update(input: CurrencyDto): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/api/Currency/Update";
+        let url_ = this.baseUrl + "/private-api/Currency/Update";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -392,7 +392,7 @@ export class ApiClient {
     }
 
     currency_DeleteById(id: number): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/api/Currency/DeleteById/{id}";
+        let url_ = this.baseUrl + "/private-api/Currency/DeleteById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));

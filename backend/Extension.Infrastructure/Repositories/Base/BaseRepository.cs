@@ -73,7 +73,7 @@ namespace Extension.Domain.Repositories
             return await _dbSet.FirstOrDefaultAsync(lambda);
         }
 
-        public IQueryable<TEntity> GetAllEntities()
+        public IQueryable<TEntity> GetAll()
         {
             return _dbSet.AsQueryable<TEntity>(); // This will return an IQueryable
         }
