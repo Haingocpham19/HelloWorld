@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Extension.Application\Extension.Application.csproj" />
+    <ProjectReference Include="..\JwtAuthenticationHandler\JwtAuthenticationHandler.csproj" />
   </ItemGroup>
 
   <!-- https://github.com/RicoSuter/NSwag/wiki/Assembly-loading#net-core -->

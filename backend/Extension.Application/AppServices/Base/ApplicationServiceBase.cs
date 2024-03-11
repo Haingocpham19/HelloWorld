@@ -1,10 +1,16 @@
-﻿using Extension.Domain.Entities;
+﻿using Extension.Application.AppFactory;
+using Extension.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Extension.Application.AppServices
 {
     public class ApplicationServiceBase
     {
-        public UserManager<ApplicationUser> UserManager { get; set; }
+        protected ApplicationServiceBase(IAppFactory appFactory)
+        {
+            AppFactory = appFactory;
+        }
+
+        public IAppFactory AppFactory { get; set; }
     }
 }

@@ -21,20 +21,14 @@ namespace Extension.Controllers
             extensionDbContext = ExtensionDbContext;
         }
 
-        [HttpGet]
-        public async Task<List<Currency>> Get()
-        {
-            return await GetExchangeVietcombank.GetExchange();
-        }
-
-        [HttpPost]
+        [HttpGet("get-list")]
         public async Task<List<Currency>> Post()
         {
             DeserializeJsonCurrency deserialize = new();
             var outPut = await deserialize.DeserializeJson();
             foreach (var item in outPut)
             {
-                Currency currency = new() 
+                Currency currency = new()
                 {
                     CurrencyCode = item.CurrencyCode,
                     CurrencyName = item.CurrencyName,
@@ -43,6 +37,12 @@ namespace Extension.Controllers
                 };
             }
             return outPut;
+        }
+
+        [HttpPost("get-list-realtime")]
+        public async Task<List<Currency>> GetListExchange()
+        {
+            return await GetExchangeVietcombank.GetExchange();
         }
     }
 }

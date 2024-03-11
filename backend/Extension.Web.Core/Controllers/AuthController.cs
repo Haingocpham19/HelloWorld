@@ -1,6 +1,7 @@
 ﻿using Extension.Application.AppServices;
 using Extension.Application.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace Extension.Web.Core.Controllers
 {
@@ -10,20 +11,29 @@ namespace Extension.Web.Core.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ITokenAuthAppService _tokenAuthAppService;
+        private readonly IAccountRegisterAppService _accountRegisterAppService;
 
         public AuthController(
             IConfiguration configuration,
-            ITokenAuthAppService tokenAuthAppService)
+            ITokenAuthAppService tokenAuthAppService,
+            IAccountRegisterAppService accountRegisterAppService)
         {
             _configuration = configuration;
             _tokenAuthAppService = tokenAuthAppService;
+            _accountRegisterAppService = accountRegisterAppService;
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(TokenAuthRequest input)
+        public async Task<TokenAuthResponse> Login([FromBody] TokenAuthRequest input)
         {
-            var loginResult = await _tokenAuthAppService.Authenticate(input);
-            return loginResult is null ? Unauthorized() : Ok(loginResult);
+            return await _tokenAuthAppService.Authenticate(input);
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] AccountRegisterRequest input)
+        {
+            var result = await _accountRegisterAppService.RegisterUserAsync(input);
+            return result.Succeeded ?  Ok("Registration successful"): BadRequest(result.Errors); ;
         }
     }
 }

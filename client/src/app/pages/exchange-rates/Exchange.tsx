@@ -32,7 +32,7 @@ const ExchangeRates: React.FC = () => {
         const fetchData = async () => {
             try {
                 setData({ groups: data.groups, isFetching: true });
-                const result = await new ApiClient(process.env.REACT_APP_API_BASE).getExchangeRate_Get();
+                const result = await new ApiClient(process.env.REACT_APP_API_BASE).exchangeRate_GetListExchange();
                 setData({ groups: result, isFetching: false });
             } catch (e) {
                 console.log(e);

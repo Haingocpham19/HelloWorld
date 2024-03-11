@@ -19,20 +19,24 @@ namespace Extension.Application.AppServices
     {
         private readonly TokenAuthConfiguration _tokenAuthConfiguration;
         private readonly IdentityOptions _identityOptions;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public TokenAuthAppService(
             IOptions<TokenAuthConfiguration> tokenAuthConfiguration,
-            IOptions<IdentityOptions> identityOptions)
+            IOptions<IdentityOptions> identityOptions,
+            UserManager<ApplicationUser> userManager,
+            IAppFactory appFactory) : base(appFactory)
         {
             _tokenAuthConfiguration = tokenAuthConfiguration.Value;
             _identityOptions = identityOptions.Value;
+            _userManager = userManager;
         }
 
         public async Task<TokenAuthResponse> Authenticate(TokenAuthRequest request)
         {
-            var user = await UserManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByNameAsync(request.UserName);
 
-            if (user != null && await UserManager.CheckPasswordAsync(user, request.Password))
+            if (user != null && await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 var claims = await CreateJwtClaims(user);
                 var accessToken = CreateToken(claims);
@@ -61,7 +65,7 @@ namespace Extension.Application.AppServices
                 new Claim(AppConsts.TokenValidityKey, tokenValidityKey)
             };
 
-            await UserManager.AddClaimsAsync(user, claims);
+            await _userManager.AddClaimsAsync(user, claims);
 
             return claims;
         }

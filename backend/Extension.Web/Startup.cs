@@ -3,14 +3,19 @@ using Extension.Infrastructure;
 using Extension.Web.Configs.DiLaunchers.Implementations;
 using Hangfire;
 using Hangfire.MySql;
+using JwtAuthenticationHandler;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Configuration;
+using System.Text;
 using System.Transactions;
 
 namespace Extension
@@ -101,6 +106,10 @@ namespace Extension
             services.AddControllers();
 
             services.AddOpenApiDocument();
+
+            var issuerSigningKey = Configuration.GetSection("JwtSettings:TokenValidationParameters:IssuerSigningKey").Value;
+
+            services.ConfigureJwtAuthentication(issuerSigningKey);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

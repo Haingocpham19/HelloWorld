@@ -31,21 +31,5 @@ namespace Extension.Web.Core.Services
                 });
             });
         }
-
-        public static void ConfigureJwtAuthentication(this IServiceCollection services, string issuerSigningKey)
-        {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                    };
-                });
-        }
     }
 }

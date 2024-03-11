@@ -1,25 +1,52 @@
+using Extension.Application.AppFactory;
+using Extension.Application.AppServices;
+using Extension.Domain.Entities;
+using Extension.Infrastructure;
+using Extension.Infrastructure.Authentication.JwtBearer;
 using Extension.Web.Core.Services;
-using Microsoft.OpenApi.Models;
+using JwtAuthenticationHandler;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Access configuration
 var configuration = builder.Configuration;
+var connectionString = configuration.GetConnectionString("Extension");
 
 // Access specific configuration values
-var issuerSigningKey = configuration.GetSection("JwtSettings:TokenValidationParameters:IssuerSigningKey").Value;
+var issuerSigningKey = configuration.GetSection("JwtSettings:SecurityKey").Value;
+builder.Services.ConfigureJwtAuthentication(issuerSigningKey);
+
+builder.Services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ExtensionDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.ConfigureSwagger();
-builder.Services.ConfigureJwtAuthentication(issuerSigningKey);
+
+// Configure TokenAuthConfiguration
+builder.Services.Configure<TokenAuthConfiguration>(options =>
+{
+    options.SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecurityKey"]));
+    options.Issuer = configuration["JwtSettings:Issuer"];
+    options.Audience = configuration["JwtSettings:Audience"];
+    options.SigningCredentials = new SigningCredentials(options.SecurityKey, SecurityAlgorithms.HmacSha256);
+    options.AccessTokenExpiration = TimeSpan.FromMinutes(30); // Set your desired expiration time
+    options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set your desired expiration time
+});
+
+builder.Services.AddScoped<IAppFactory, AppFactory>();
+builder.Services.AddScoped<ITokenAuthAppService, TokenAuthAppService>();
+builder.Services.AddScoped<IAccountRegisterAppService, AccountRegisterAppService>();
 
 builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddAuthorization();
-
-// Add services to the container.
-builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -27,27 +54,26 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages(); 
-
 app.UseSwagger();
-
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API");
+});
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
 });
 
 app.Run();

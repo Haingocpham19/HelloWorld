@@ -158,8 +158,8 @@ export class ApiClient {
         return Promise.resolve<string>(null as any);
     }
 
-    getExchangeRate_Get(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/private-api/GetExchangeRate";
+    exchangeRate_Post(): Promise<Currency[]> {
+        let url_ = this.baseUrl + "/private-api/ExchangeRate/get-list";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -170,11 +170,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetExchangeRate_Get(_response);
+            return this.processExchangeRate_Post(_response);
         });
     }
 
-    protected processGetExchangeRate_Get(response: Response): Promise<Currency[]> {
+    protected processExchangeRate_Post(response: Response): Promise<Currency[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -199,8 +199,8 @@ export class ApiClient {
         return Promise.resolve<Currency[]>(null as any);
     }
 
-    getExchangeRate_Post(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/private-api/GetExchangeRate";
+    exchangeRate_GetListExchange(): Promise<Currency[]> {
+        let url_ = this.baseUrl + "/private-api/ExchangeRate/get-list-realtime";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -211,11 +211,11 @@ export class ApiClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetExchangeRate_Post(_response);
+            return this.processExchangeRate_GetListExchange(_response);
         });
     }
 
-    protected processGetExchangeRate_Post(response: Response): Promise<Currency[]> {
+    protected processExchangeRate_GetListExchange(response: Response): Promise<Currency[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -426,46 +426,6 @@ export class ApiClient {
             });
         }
         return Promise.resolve<CommonResultDtoOfCurrencyDto>(null as any);
-    }
-
-    test_RegisterDomain(domain: string | null | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/register-domain?";
-        if (domain !== undefined && domain !== null)
-            url_ += "domain=" + encodeURIComponent("" + domain) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processTest_RegisterDomain(_response);
-        });
-    }
-
-    protected processTest_RegisterDomain(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(null as any);
     }
 }
 
@@ -1386,13 +1346,6 @@ export enum MessageCode {
     NotValid = 400,
     NotFound = 404,
     Exeption = 500,
-}
-
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {
