@@ -17,51 +17,12 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <React.Fragment>
-                <div className="ms-Grid" dir="ltr">
-                    <div className="ms-Grid-row">
-                        <div className={styles.header}>
-                            <Image height={30} src={msftLogo} className={styles.msftLogo} />
-                            <div className={styles.headerDivider} />
-                            <Text className={styles.headerTitle}>My First React App</Text>
-                        </div>
-                        <div className={'ms-Grid-col ms-sm12 ms-lg4 ms-xl2'}>
-                            <Nav
-                                linkAs={onRenderLink}
-                                onLinkClick={(_, item) => setPage(item?.key)}
-                                selectedKey={page}
-                                groups={[
-                                    {
-                                        collapseAriaLabel: 'Collapse',
-                                        expandAriaLabel: 'Expand',
-                                        links: [
-                                            {
-                                                name: 'Home',
-                                                url: '/',
-                                                key: 'home'
-                                            },
-                                            {
-                                                name: 'About',
-                                                url: '/about',
-                                                key: 'about'
-                                            },
-                                            {
-                                                name: 'Exchange Rates',
-                                                url: '/exchange-rates',
-                                                key: 'exchange rate'
-                                            }
-                                        ]
-                                    }
-                                ]}
-                            />
-                        </div>
-                        <div className="ms-Grid-col ms-sm12 ms-lg8 msxl-10">
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/about" element={<About />} />
-                                <Route path="/exchange-rates" element={<ExchangeRates />} />
-                            </Routes>
-                        </div>
-                    </div>
+                <div className="App" id="wrapper">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/Login" element={<About />} />
+                        <Route path="/exchange-rates" element={<ExchangeRates />} />
+                    </Routes>
                 </div>
             </React.Fragment>
         </BrowserRouter>

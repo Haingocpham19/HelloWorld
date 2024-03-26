@@ -18,148 +18,8 @@ export class ApiClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    hangfire_FireAndForgetJob(): Promise<string> {
-        let url_ = this.baseUrl + "/private-api/Hangfire/IFireAndForgetJob";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processHangfire_FireAndForgetJob(_response);
-        });
-    }
-
-    protected processHangfire_FireAndForgetJob(response: Response): Promise<string> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    hangfire_DelayedJob(): Promise<string> {
-        let url_ = this.baseUrl + "/private-api/Hangfire/IDelayedJob";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processHangfire_DelayedJob(_response);
-        });
-    }
-
-    protected processHangfire_DelayedJob(response: Response): Promise<string> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    hangfire_ContinuousJob(): Promise<string> {
-        let url_ = this.baseUrl + "/private-api/Hangfire/IContinuousJob";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processHangfire_ContinuousJob(_response);
-        });
-    }
-
-    protected processHangfire_ContinuousJob(response: Response): Promise<string> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
-    hangfire_RecurringJobs(): Promise<string> {
-        let url_ = this.baseUrl + "/private-api/Hangfire/IRecurringJob";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processHangfire_RecurringJobs(_response);
-        });
-    }
-
-    protected processHangfire_RecurringJobs(response: Response): Promise<string> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<string>(null as any);
-    }
-
     exchangeRate_Post(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/private-api/ExchangeRate/get-list";
+        let url_ = this.baseUrl + "/app-api/ExchangeRate/get-list";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -200,7 +60,7 @@ export class ApiClient {
     }
 
     exchangeRate_GetListExchange(): Promise<Currency[]> {
-        let url_ = this.baseUrl + "/private-api/ExchangeRate/get-list-realtime";
+        let url_ = this.baseUrl + "/app-api/ExchangeRate/get-list-realtime";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -241,7 +101,7 @@ export class ApiClient {
     }
 
     currency_GetPagingList(input: PagedFullInputDto): Promise<PagedResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/private-api/Currency/List";
+        let url_ = this.baseUrl + "/app-api/Currency/List";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -279,7 +139,7 @@ export class ApiClient {
     }
 
     currency_GetById(id: number): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/private-api/Currency/GetById/{id}";
+        let url_ = this.baseUrl + "/app-api/Currency/GetById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -316,7 +176,7 @@ export class ApiClient {
     }
 
     currency_Create(input: CurrencyDto): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/private-api/Currency/Create";
+        let url_ = this.baseUrl + "/app-api/Currency/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -354,7 +214,7 @@ export class ApiClient {
     }
 
     currency_Update(input: CurrencyDto): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/private-api/Currency/Update";
+        let url_ = this.baseUrl + "/app-api/Currency/Update";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -392,7 +252,7 @@ export class ApiClient {
     }
 
     currency_DeleteById(id: number): Promise<CommonResultDtoOfCurrencyDto> {
-        let url_ = this.baseUrl + "/private-api/Currency/DeleteById/{id}";
+        let url_ = this.baseUrl + "/app-api/Currency/DeleteById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));

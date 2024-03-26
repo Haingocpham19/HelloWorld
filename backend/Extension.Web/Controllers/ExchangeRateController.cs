@@ -2,15 +2,12 @@
 using Extension.Domain.Entities;
 using Extension.Infrastructure;
 using Extension.Web.Controllers.Base;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Extension.Controllers
 {
-    [Authorize]
-    [Route("~/private-api/[controller]")]
     [ApiController]
     public class ExchangeRateController : BaseController
     {

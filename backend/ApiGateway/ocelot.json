@@ -1,8 +1,7 @@
 {
   "Routes": [
     {
-      // Private services
-      "DownstreamPathTemplate": "/private-api/{controller}/{action}",
+      "DownstreamPathTemplate": "/app-api/{controller}/{action}",
       "DownstreamSchema": "https",
       "DownstreamHostAndPorts": [
         {
@@ -10,7 +9,7 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/private-gateway/{controller}/{action}",
+      "UpstreamPathTemplate": "/app-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -18,7 +17,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/authen-api/{controller}/{action}",
+      "DownstreamPathTemplate": "/auth-api/{controller}/{action}",
       "DownstreamSchema": "https",
       "DownstreamHostAndPorts": [
         {
@@ -26,8 +25,12 @@
           "Port": 7127
         }
       ],
-      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
+      "UpstreamPathTemplate": "/auth-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "Get", "Post" ]
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration"
+  }
 }

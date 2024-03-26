@@ -5,6 +5,7 @@ using Ocelot.Middleware;
 using Ocelot.Values;
 using System.Text;
 using JwtAuthenticationHandler;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Access specific configuration values
-var issuerSigningKey = configuration.GetSection("JwtSettings:TokenValidationParameters:IssuerSigningKey").Value;
+var issuerSigningKey = configuration.GetSection("JwtSettings:SecurityKey").Value;
+string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
+string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
 
-builder.Services.ConfigureJwtAuthentication(issuerSigningKey);
+builder.Services.ConfigureJwtAuthentication(issuerSigningKey, validIssuer, validAudience);
 
 builder.Services.AddSwaggerGen();
 

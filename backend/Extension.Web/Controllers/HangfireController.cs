@@ -1,69 +1,67 @@
-﻿using Hangfire;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿//using Extension.Web.Controllers.Base;
+//using Hangfire;
+//using Microsoft.AspNetCore.Mvc;
+//using System;
 
-namespace HangfireDemo.Controllers
-{
-    [Authorize]
-    [Route("~/private-api/[controller]")]
-    [ApiController]
-    public class HangfireController : Controller
-    {
-        private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IRecurringJobManager _recurringJobManager;
-        public HangfireController(IBackgroundJobClient backgroundJobClient, IRecurringJobManager recurringJobManager)
-        {
-            _backgroundJobClient = backgroundJobClient;
-            _recurringJobManager = recurringJobManager;
-        }
+//namespace HangfireDemo.Controllers
+//{
+//    [ApiController]
+//    public class HangfireController : BaseController
+//    {
+//        private readonly IBackgroundJobClient _backgroundJobClient;
+//        private readonly IRecurringJobManager _recurringJobManager;
+//        public HangfireController(IBackgroundJobClient backgroundJobClient, IRecurringJobManager recurringJobManager)
+//        {
+//            _backgroundJobClient = backgroundJobClient;
+//            _recurringJobManager = recurringJobManager;
+//        }
 
-        [HttpGet]
-        [Route("IFireAndForgetJob")]
-        public string FireAndForgetJob()
-        {
-            //Fire - and - Forget Jobs
-            //Fire - and - forget jobs are executed only once and almost immediately after creation.
-            var jobId = _backgroundJobClient.Enqueue(() => Console.WriteLine("Welcome user in Fire and Forget Job Demo!"));
+//        [HttpGet]
+//        [Route("IFireAndForgetJob")]
+//        public string FireAndForgetJob()
+//        {
+//            //Fire - and - Forget Jobs
+//            //Fire - and - forget jobs are executed only once and almost immediately after creation.
+//            var jobId = _backgroundJobClient.Enqueue(() => Console.WriteLine("Welcome user in Fire and Forget Job Demo!"));
 
-            return $"Job ID: {jobId}. Welcome user in Fire and Forget Job Demo!";
-        }
+//            return $"Job ID: {jobId}. Welcome user in Fire and Forget Job Demo!";
+//        }
 
-        [HttpGet]
-        [Route("IDelayedJob")]
-        public string DelayedJob()
-        {
-            //Delayed Jobs
-            //Delayed jobs are executed only once too, but not immediately, after a certain time interval.
-            var jobId = _backgroundJobClient.Schedule(() => Console.WriteLine("Welcome user in Delayed Job Demo!"), TimeSpan.FromSeconds(60));
+//        [HttpGet]
+//        [Route("IDelayedJob")]
+//        public string DelayedJob()
+//        {
+//            //Delayed Jobs
+//            //Delayed jobs are executed only once too, but not immediately, after a certain time interval.
+//            var jobId = _backgroundJobClient.Schedule(() => Console.WriteLine("Welcome user in Delayed Job Demo!"), TimeSpan.FromSeconds(60));
 
-            return $"Job ID: {jobId}. Welcome user in Delayed Job Demo!";
-        }
+//            return $"Job ID: {jobId}. Welcome user in Delayed Job Demo!";
+//        }
 
-        [HttpGet]
-        [Route("IContinuousJob")]
-        public string ContinuousJob()
-        {
-            //Fire - and - Forget Jobs
-            //Fire - and - forget jobs are executed only once and almost immediately after creation.
-            var parentjobId = _backgroundJobClient.Enqueue(() => Console.WriteLine("Welcome user in Fire and Forget Job Demo!"));
+//        [HttpGet]
+//        [Route("IContinuousJob")]
+//        public string ContinuousJob()
+//        {
+//            //Fire - and - Forget Jobs
+//            //Fire - and - forget jobs are executed only once and almost immediately after creation.
+//            var parentjobId = _backgroundJobClient.Enqueue(() => Console.WriteLine("Welcome user in Fire and Forget Job Demo!"));
 
-            //Continuations
-            //Continuations are executed when its parent job has been finished.
-            BackgroundJob.ContinueJobWith(parentjobId, () => Console.WriteLine("Welcome Sachchi in Continuos Job Demo!"));
+//            //Continuations
+//            //Continuations are executed when its parent job has been finished.
+//            BackgroundJob.ContinueJobWith(parentjobId, () => Console.WriteLine("Welcome Sachchi in Continuos Job Demo!"));
 
-            return "Welcome user in Continuos Job Demo!";
-        }
+//            return "Welcome user in Continuos Job Demo!";
+//        }
 
-        [HttpGet]
-        [Route("IRecurringJob")]
-        public string RecurringJobs()
-        {
-            //Recurring Jobs
-            //Recurring jobs fire many times on the specified CRON schedule.
-            _recurringJobManager.AddOrUpdate("jobId", () => Console.WriteLine("Welcome user in Recurring Job Demo!"+ DateTime.Now.ToString()), Cron.Hourly(5));
+//        [HttpGet]
+//        [Route("IRecurringJob")]
+//        public string RecurringJobs()
+//        {
+//            //Recurring Jobs
+//            //Recurring jobs fire many times on the specified CRON schedule.
+//            _recurringJobManager.AddOrUpdate("jobId", () => Console.WriteLine("Welcome user in Recurring Job Demo!"+ DateTime.Now.ToString()), Cron.Hourly(5));
 
-            return "Welcome user in Recurring Job Demo!";
-        }
-    }
-}
+//            return "Welcome user in Recurring Job Demo!";
+//        }
+//    }
+//}

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Extension.Web.Core.Controllers
 {
-    [Route("~/authen-api/[controller]")]
+    [Route("~/auth-api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -35,5 +35,12 @@ namespace Extension.Web.Core.Controllers
             var result = await _accountRegisterAppService.RegisterUserAsync(input);
             return result.Succeeded ?  Ok("Registration successful"): BadRequest(result.Errors); ;
         }
+
+        //[HttpPost("Register")]
+        //public async Task<IActionResult> RefreshToken(string token)
+        //{
+        //    var result = await _tokenAuthAppService.RegisterUserAsync(input);
+        //    return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
+        //}
     }
 }

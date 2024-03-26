@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Extension.Web.Controllers
 {
-    [Route("~/private-api/[controller]")]
     [ApiController]
     public class CurrencyController : CrudBaseController<int, Currency, CurrencyDto, PagedFullInputDto, CurrencyDto>
     {

@@ -7,7 +7,6 @@ using Extension.Web.Core.Services;
 using JwtAuthenticationHandler;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -19,7 +18,10 @@ var connectionString = configuration.GetConnectionString("Extension");
 
 // Access specific configuration values
 var issuerSigningKey = configuration.GetSection("JwtSettings:SecurityKey").Value;
-builder.Services.ConfigureJwtAuthentication(issuerSigningKey);
+string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
+string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
+
+builder.Services.ConfigureJwtAuthentication(issuerSigningKey, validIssuer, validAudience);
 
 builder.Services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
@@ -36,7 +38,7 @@ builder.Services.Configure<TokenAuthConfiguration>(options =>
     options.Issuer = configuration["JwtSettings:Issuer"];
     options.Audience = configuration["JwtSettings:Audience"];
     options.SigningCredentials = new SigningCredentials(options.SecurityKey, SecurityAlgorithms.HmacSha256);
-    options.AccessTokenExpiration = TimeSpan.FromMinutes(30); // Set your desired expiration time
+    options.AccessTokenExpiration = TimeSpan.FromHours(30); // Set your desired expiration time
     options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set your desired expiration time
 });
 
