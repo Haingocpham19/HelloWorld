@@ -13,11 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Access specific configuration values
-var issuerSigningKey = configuration.GetSection("JwtSettings:SecurityKey").Value;
 string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
 string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
 
-builder.Services.ConfigureJwtAuthentication(issuerSigningKey, validIssuer, validAudience);
+builder.Services.ConfigureJwtAuthentication(validIssuer, validAudience);
 
 builder.Services.AddSwaggerGen();
 

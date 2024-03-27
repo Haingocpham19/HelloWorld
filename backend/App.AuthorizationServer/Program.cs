@@ -17,11 +17,10 @@ var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("Extension");
 
 // Access specific configuration values
-var issuerSigningKey = configuration.GetSection("JwtSettings:SecurityKey").Value;
 string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
 string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
 
-builder.Services.ConfigureJwtAuthentication(issuerSigningKey, validIssuer, validAudience);
+builder.Services.ConfigureJwtAuthentication(validIssuer, validAudience);
 
 builder.Services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

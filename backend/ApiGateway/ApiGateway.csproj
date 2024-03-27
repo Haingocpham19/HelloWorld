@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Assets\.private\default-jwk.json" />
+    <Content Include="Assets\.private\public-jwk.json" />
+    <Content Include="Assets\.well-known\jwks.json" />
+    <Content Include="Assets\.well-known\openid-configuration.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ocelot" Version="23.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>

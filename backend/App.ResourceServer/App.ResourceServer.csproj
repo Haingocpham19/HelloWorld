@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Assets\.private\default-jwk.json" />
+    <Content Include="Assets\.private\public-jwk.json" />
+    <Content Include="Assets\.well-known\jwks.json" />
+    <Content Include="Assets\.well-known\openid-configuration.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.8.6" />
     <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">

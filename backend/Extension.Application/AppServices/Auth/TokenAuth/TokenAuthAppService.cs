@@ -1,18 +1,14 @@
 ﻿using Extension.Application.AppFactory;
 using Extension.Application.Dto;
-using Extension.Domain.CommanConstant;
 using Extension.Domain.Entities;
 using Extension.Infrastructure.Authentication.JwtBearer;
+using JwtAuthenticationHandler;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace Extension.Application.AppServices
 {
@@ -169,8 +165,7 @@ namespace Extension.Application.AppServices
 
         private string CreateToken(IEnumerable<Claim> claims, TimeSpan expiration)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenAuthConfiguration.SecurityKey.ToString()));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(JwtAuthenticationConfigExtensions.GetJsonWebKey(), SecurityAlgorithms.RsaSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _tokenAuthConfiguration.Issuer,

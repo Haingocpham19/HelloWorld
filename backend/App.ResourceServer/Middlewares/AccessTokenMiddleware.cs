@@ -50,12 +50,14 @@ namespace Extension.Web.Middlewares
             try
             {
                 // Giải mã token để kiểm tra nội dung
+                var tokenValidationParameters = JwtAuthenticationConfigExtensions.GetTokenValidationParameters(this._validIssuer, this._validAudience);
+
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenValidationParameters = JwtAuthenticationConfigExtensions.GetTokenValidationParameters(this._issuerSigningKey, this._validIssuer, this._validAudience);
+
+                SecurityToken validatedToken;
 
                 // Xác thực token và lấy ra các thông tin trong token
-                SecurityToken validatedToken;
-                var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out validatedToken);
+                var principal = new JwtSecurityTokenHandler().ValidateToken(accessToken, tokenValidationParameters, out validatedToken);
 
                 // Nếu xác thực thành công, token là hợp lệ
                 return true;

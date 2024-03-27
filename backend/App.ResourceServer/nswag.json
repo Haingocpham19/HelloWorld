@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "aspNetCoreToOpenApi": {
-      "project": "Extension.Web.csproj",
+      "project": "App.ResourceServer.csproj",
       "msBuildProjectExtensionsPath": null,
       "configuration": "$(Configuration)",
       "runtime": null,
@@ -30,7 +30,7 @@
       "serviceHost": null,
       "serviceBasePath": null,
       "serviceSchemes": [],
-      "infoTitle": "Extension Project",
+      "infoTitle": "HelloWorld Project",
       "infoDescription": null,
       "infoVersion": "1.0.0",
       "documentTemplate": null,

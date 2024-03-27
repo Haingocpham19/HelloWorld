@@ -139,11 +139,10 @@ namespace Extension
 
         private void ConfigureJwtAuthentication(IServiceCollection services)
         {
-            var issuerSigningKey = Configuration.GetSection("JwtSettings:SecurityKey").Value;
             string validIssuer = Configuration.GetSection("JwtSettings:Issuer").Value;
             string validAudience = Configuration.GetSection("JwtSettings:Audience").Value;
 
-            services.ConfigureJwtAuthentication(issuerSigningKey, validIssuer, validAudience);
+            services.ConfigureJwtAuthentication(validIssuer, validAudience);
         }
         #endregion
 
@@ -170,7 +169,7 @@ namespace Extension
             string validAudience = Configuration.GetSection("JwtSettings:Audience").Value;
 
             // Thêm middleware kiểm tra access token vào pipeline
-            //app.UseAccessTokenMiddleware(issuerSigningKey, validIssuer, validAudience);
+            app.UseAccessTokenMiddleware(issuerSigningKey, validIssuer, validAudience);
 
             app.UseHangfireDashboard("/dashboard");
             app.UseRouting();
