@@ -16,7 +16,7 @@ var configuration = builder.Configuration;
 string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
 string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
 
-new JwtAuthenticationConfigExtensions(validIssuer, validAudience).ConfigureJwtAuthentication(builder.Services);
+builder.Services.ConfigureJwtAuthentication(validIssuer, validAudience);
 
 builder.Services.AddSwaggerGen();
 

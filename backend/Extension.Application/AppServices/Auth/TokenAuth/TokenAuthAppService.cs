@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -15,8 +14,8 @@ namespace Extension.Application.AppServices
 {
     public interface ITokenAuthAppService
     {
-        public Task<TokenAuthResponse> GetToken(TokenAuthRequest request);
-        public Task<RefreshTokenReponse> RefreshToken(string token);
+        public Task<TokenAuthResponse> Authenticate(TokenAuthRequest request);
+        //public Task<RefreshTokenReponse> RefreshToken(string token);
     }
 
     public class TokenAuthAppService : ApplicationServiceBase, ITokenAuthAppService
@@ -25,7 +24,6 @@ namespace Extension.Application.AppServices
         private readonly IdentityOptions _identityOptions;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOptions<JwtBearerOptions> _jwtOptions;
-        private readonly JwtAuthenticationConfigExtensions _jwtAuthenticationConfigExtensions;
 
         public TokenAuthAppService(
             IOptions<TokenAuthConfiguration> tokenAuthConfiguration,
@@ -38,10 +36,9 @@ namespace Extension.Application.AppServices
             _identityOptions = identityOptions.Value;
             _userManager = userManager;
             _jwtOptions = jwtOptions;
-            _jwtAuthenticationConfigExtensions = new JwtAuthenticationConfigExtensions(_tokenAuthConfiguration.Issuer, _tokenAuthConfiguration.Audience);
         }
 
-        public async Task<TokenAuthResponse> GetToken(TokenAuthRequest request)
+        public async Task<TokenAuthResponse> Authenticate(TokenAuthRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
 
@@ -62,49 +59,96 @@ namespace Extension.Application.AppServices
             return null;
         }
 
-        public async Task<RefreshTokenReponse> RefreshToken(string refreshToken)
-        {
-            // Validate input
-            if (string.IsNullOrWhiteSpace(refreshToken))
-            {
-                throw new ArgumentNullException(nameof(refreshToken));
-            }
+        //public async Task<RefreshTokenReponse> RefreshToken(string refreshToken)
+        //{
+        //    if (string.IsNullOrWhiteSpace(refreshToken))
+        //    {
+        //        throw new ArgumentNullException(nameof(refreshToken));
+        //    }
 
-            // Check if refresh token is valid
-            string userId = _jwtAuthenticationConfigExtensions.IsValidRefreshToken(refreshToken);
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ValidationException("Refresh token is not valid!");
-            }
+        //    if (!IsRefreshTokenValid(refreshToken, out var principal))
+        //    {
+        //        throw new ValidationException("Refresh token is not valid!");
+        //    }
 
-            try
-            {
-                // Retrieve user
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user == null)
-                {
-                    throw new ValidationException("User not found!");
-                }
+        //    try
+        //    {
+        //        var userId = principal?.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
 
-                // Create JWT claims
-                var claims = CreateJwtClaims(user);
+        //        if (string.IsNullOrEmpty(userId))
+        //        {
+        //            throw new ValidationException("Invalid user identifier in refresh token!");
+        //        }
 
-                // Create new access token
-                var accessToken = CreateToken(claims, _tokenAuthConfiguration.AccessTokenExpiration);
+        //        var user = await _userManager.FindByIdAsync(userId);
 
-                // Return refresh token response
-                return new RefreshTokenReponse(accessToken, (int)_tokenAuthConfiguration.AccessTokenExpiration.TotalSeconds);
-            }
-            catch (ValidationException)
-            {
-                throw; // Re-throw ValidationException
-            }
-            catch (Exception e)
-            {
-                throw new ValidationException("Error refreshing token!", e);
-            }
-        }
+        //        if (user == null)
+        //        {
+        //            throw new ValidationException("User not found!");
+        //        }
 
+        //        var claims = await CreateJwtClaims(user);
+        //        var accessToken = CreateToken(claims);
+
+        //        return new RefreshTokenReponse
+        //        (
+        //            accessToken,
+        //            (int)_tokenAuthConfiguration.AccessTokenExpiration.TotalSeconds
+        //        );
+        //    }
+        //    catch (ValidationException)
+        //    {
+        //        throw; // Re-throw ValidationException
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new ValidationException("Error refreshing token!", e);
+        //    }
+        //}
+
+
+        //private bool IsRefreshTokenValid(string refreshToken, out ClaimsPrincipal principal)
+        //{
+        //    principal = null;
+
+        //    try
+        //    {
+        //        var validationParameters = new TokenValidationParameters
+        //        {
+        //            ValidAudience = _configuration.Audience,
+        //            ValidIssuer = _configuration.Issuer,
+        //            IssuerSigningKey = _configuration.SecurityKey
+        //        };
+
+        //        foreach (var validator in _jwtOptions.Value.SecurityTokenValidators)
+        //        {
+        //            if (!validator.CanReadToken(refreshToken))
+        //            {
+        //                continue;
+        //            }
+
+        //            try
+        //            {
+        //                principal = validator.ValidateToken(refreshToken, validationParameters, out _);
+
+        //                if (principal.Claims.FirstOrDefault(x => x.Type == AppConsts.TokenType)?.Value == TokenType.RefreshToken.To<int>().ToString())
+        //                {
+        //                    return true;
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Logger.Debug(ex.ToString(), ex);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Debug(ex.ToString(), ex);
+        //    }
+
+        //    return false;
+        //}
 
         private IEnumerable<Claim> CreateJwtClaims(ApplicationUser user)
         {
@@ -121,7 +165,7 @@ namespace Extension.Application.AppServices
 
         private string CreateToken(IEnumerable<Claim> claims, TimeSpan expiration)
         {
-            var creds = new SigningCredentials(_jwtAuthenticationConfigExtensions.GetJsonWebKey(), SecurityAlgorithms.RsaSha256);
+            var creds = new SigningCredentials(JwtAuthenticationConfigExtensions.GetJsonWebKey(), SecurityAlgorithms.RsaSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _tokenAuthConfiguration.Issuer,
