@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JwtAuthenticationHandler;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using System;
 using System.Threading.Tasks;
-using JwtAuthenticationHandler;
-using System.Collections.Generic;
 
 namespace Extension.Web.Middlewares
 {
@@ -34,7 +29,7 @@ namespace Extension.Web.Middlewares
             string accessToken = accessTokenHeader.ToString().Replace("Bearer ", "");
 
             // Kiểm tra token
-            if (!string.IsNullOrEmpty(accessToken) && IsValidAccessToken(accessToken))
+            if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(new JwtAuthenticationConfigExtensions(_validIssuer, _validAudience).IsValidRefreshToken(accessToken)))
             {
                 await _next(context); // Chuyển tiếp yêu cầu nếu token hợp lệ
             }
@@ -43,32 +38,7 @@ namespace Extension.Web.Middlewares
                 context.Response.StatusCode = 401; // Unauthorized
                 await context.Response.WriteAsync("Access denied: Invalid access token");
             }
-        }
-
-        private bool IsValidAccessToken(string accessToken)
-        {
-            try
-            {
-                // Giải mã token để kiểm tra nội dung
-                var tokenValidationParameters = JwtAuthenticationConfigExtensions.GetTokenValidationParameters(this._validIssuer, this._validAudience);
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-
-                SecurityToken validatedToken;
-
-                // Xác thực token và lấy ra các thông tin trong token
-                var principal = new JwtSecurityTokenHandler().ValidateToken(accessToken, tokenValidationParameters, out validatedToken);
-
-                // Nếu xác thực thành công, token là hợp lệ
-                return true;
-            }
-            catch
-            {
-                // Nếu có bất kỳ lỗi nào xảy ra trong quá trình xác thực, token không hợp lệ
-                return false;
-            }
-        }
-
+        }    
     }
 
     public static class AccessTokenMiddlewareExtensions

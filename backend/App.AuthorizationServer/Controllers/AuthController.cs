@@ -1,7 +1,6 @@
 ﻿using Extension.Application.AppServices;
 using Extension.Application.Dto;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
 
 namespace Extension.Web.Core.Controllers
 {
@@ -11,36 +10,25 @@ namespace Extension.Web.Core.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ITokenAuthAppService _tokenAuthAppService;
-        private readonly IAccountRegisterAppService _accountRegisterAppService;
 
         public AuthController(
             IConfiguration configuration,
-            ITokenAuthAppService tokenAuthAppService,
-            IAccountRegisterAppService accountRegisterAppService)
+            ITokenAuthAppService tokenAuthAppService)
         {
             _configuration = configuration;
             _tokenAuthAppService = tokenAuthAppService;
-            _accountRegisterAppService = accountRegisterAppService;
         }
 
-        [HttpPost("Login")]
-        public async Task<TokenAuthResponse> Login([FromBody] TokenAuthRequest input)
+        [HttpPost("GetToken")]
+        public async Task<TokenAuthResponse> GetToken([FromBody] TokenAuthRequest input)
         {
-            return await _tokenAuthAppService.Authenticate(input);
+            return await _tokenAuthAppService.GetToken(input);
         }
 
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] AccountRegisterRequest input)
+        [HttpPost("RefreshToken")]
+        public async Task<RefreshTokenReponse> RefreshToken(string token)
         {
-            var result = await _accountRegisterAppService.RegisterUserAsync(input);
-            return result.Succeeded ?  Ok("Registration successful"): BadRequest(result.Errors); ;
+            return await _tokenAuthAppService.RefreshToken(token);
         }
-
-        //[HttpPost("Register")]
-        //public async Task<IActionResult> RefreshToken(string token)
-        //{
-        //    var result = await _tokenAuthAppService.RegisterUserAsync(input);
-        //    return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
-        //}
     }
 }

@@ -1,12 +1,12 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 
+import storage from 'redux-persist/lib/storage';
+import thunkMiddleware from 'redux-thunk';
+import { setAuthToken } from '../helpers';
 import { accountReducer } from './account/reducers';
 import { alertReducer } from './alert/reducers';
 import { notificationReducer } from './notification/reducers';
-import { setAuthToken } from '../helpers';
-import storage from 'redux-persist/lib/storage';
-import thunkMiddleware from 'redux-thunk';
 import { usersReducer } from './users/reducers';
 
 const persistConfig = {
@@ -57,4 +57,5 @@ store.subscribe(() => {
   }
 });
 
-export { store, persistedStore };
+export { persistedStore, store };
+

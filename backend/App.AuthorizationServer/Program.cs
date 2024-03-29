@@ -20,7 +20,7 @@ var connectionString = configuration.GetConnectionString("Extension");
 string validIssuer = configuration.GetSection("JwtSettings:Issuer").Value;
 string validAudience = configuration.GetSection("JwtSettings:Audience").Value;
 
-builder.Services.ConfigureJwtAuthentication(validIssuer, validAudience);
+new JwtAuthenticationConfigExtensions(validIssuer, validAudience).ConfigureJwtAuthentication(builder.Services);
 
 builder.Services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

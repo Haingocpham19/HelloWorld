@@ -142,7 +142,7 @@ namespace Extension
             string validIssuer = Configuration.GetSection("JwtSettings:Issuer").Value;
             string validAudience = Configuration.GetSection("JwtSettings:Audience").Value;
 
-            services.ConfigureJwtAuthentication(validIssuer, validAudience);
+            new JwtAuthenticationConfigExtensions(validIssuer, validAudience).ConfigureJwtAuthentication(services);
         }
         #endregion
 
