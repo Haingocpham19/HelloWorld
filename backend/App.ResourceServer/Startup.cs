@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
 using System;
 using System.Configuration;
 using System.Transactions;
@@ -63,7 +65,11 @@ namespace Extension
         private void ConfigureEntityFramework(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("Extension");
-            services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDbContext<ExtensionDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), 
+            options =>
+            {
+                options.SchemaBehavior(MySqlSchemaBehavior.Ignore);
+            }));
         }
 
         private void ConfigureCors(IServiceCollection services)

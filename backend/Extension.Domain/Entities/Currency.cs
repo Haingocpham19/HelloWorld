@@ -1,6 +1,7 @@
 ﻿using Extension.Domain.Entities.Core;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Extension.Domain.Entities
 {

@@ -9,6 +9,7 @@ namespace Extension.Infrastructure
     {
         public ExtensionDbContext(DbContextOptions<ExtensionDbContext> options) : base(options) { }
 
+        public DbSet<AppConfig> AppConfigs { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<SourcePage> SourcePages { get; set; }
@@ -18,10 +19,11 @@ namespace Extension.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new AppconfigConfiguration());
+            modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new ClientCardConfiguration());
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
             modelBuilder.ApplyConfiguration(new SourcePageConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
         }
     }
 }

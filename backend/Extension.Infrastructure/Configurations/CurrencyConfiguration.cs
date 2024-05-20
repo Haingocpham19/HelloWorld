@@ -8,6 +8,7 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<Currency> builder)
         {
+            builder.ToTable("Currencies");
             builder.HasKey(x => x.Id);
         }
     }

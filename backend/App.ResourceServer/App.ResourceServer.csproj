@@ -35,8 +35,8 @@
 
   <!-- https://github.com/RicoSuter/NSwag/wiki/Assembly-loading#net-core -->
   <!-- build TypeScript client and DTOs for this backend -->
-  <Target Name="NSwag" AfterTargets="Build">
+  <!--<Target Name="NSwag" AfterTargets="Build">
     <Exec Command="$(NSwagExe_Net60) run nswag.json /variables:Configuration=$(Configuration)" />
-  </Target>
+  </Target>-->
 
 </Project>

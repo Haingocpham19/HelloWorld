@@ -45,4 +45,7 @@ const notificationReducer = (
       return state;
   }
 };
-export { notificationReducer };
+
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default { notificationReducer };

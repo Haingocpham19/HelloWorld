@@ -8,6 +8,7 @@ namespace Extension.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<ClientCard> builder)
         {
+            builder.ToTable("ClientCards");
             builder.HasKey(x => x.Id);
         }
     }

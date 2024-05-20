@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Extension.Infracstructure.Migrations
+namespace Extension.Infrastructure.Migrations
 {
     [DbContext(typeof(ExtensionDbContext))]
     partial class ExtensionDbContextModelSnapshot : ModelSnapshot
@@ -16,7 +16,7 @@ namespace Extension.Infracstructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.21")
+                .HasAnnotation("ProductVersion", "6.0.29")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Extension.Domain.Entities.AppConfig", b =>
@@ -30,7 +30,7 @@ namespace Extension.Infracstructure.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("AppConfig");
+                    b.ToTable("AppConfigs", (string)null);
                 });
 
             modelBuilder.Entity("Extension.Domain.Entities.ApplicationUser", b =>
@@ -129,7 +129,7 @@ namespace Extension.Infracstructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientCards");
+                    b.ToTable("ClientCards", (string)null);
                 });
 
             modelBuilder.Entity("Extension.Domain.Entities.Currency", b =>
@@ -170,7 +170,7 @@ namespace Extension.Infracstructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
                 });
 
             modelBuilder.Entity("Extension.Domain.Entities.Product", b =>
@@ -238,7 +238,7 @@ namespace Extension.Infracstructure.Migrations
 
                     b.HasIndex("SourcePageId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Extension.Domain.Entities.SourcePage", b =>
@@ -276,7 +276,7 @@ namespace Extension.Infracstructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SourcePages");
+                    b.ToTable("SourcePages", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

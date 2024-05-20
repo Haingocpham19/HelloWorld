@@ -34,4 +34,6 @@ const alertReducer = (
       return state;
   }
 };
-export { alertReducer };
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default { alertReducer };

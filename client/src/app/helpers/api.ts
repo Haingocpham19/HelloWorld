@@ -28,7 +28,7 @@ const api = {
       }
 
       return response.json();
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.status === 401) {
         const currentState = store.getState() as AppState;
         const refreshToken = currentState.account.refreshToken;
@@ -53,7 +53,7 @@ const api = {
             });
 
             const refreshOptions: RequestOptions = {
-              url:`${env.API_URL}/api/v1/auth/refresh-token/`,
+              url: `${env.API_URL}/api/v1/auth/refresh-token/`,
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const api = {
 
             return api
               .request<T>('/v1/auth/refresh-token', refreshOptions)
-              .then((response:any) => {
+              .then((response: any) => {
                 store.dispatch({
                   type: REFRESH_TOKEN_SUCCESS,
                   payload: {
