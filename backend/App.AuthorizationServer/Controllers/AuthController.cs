@@ -36,11 +36,11 @@ namespace Extension.Web.Core.Controllers
             return result.Succeeded ?  Ok("Registration successful"): BadRequest(result.Errors); ;
         }
 
-        //[HttpPost("Register")]
-        //public async Task<IActionResult> RefreshToken(string token)
-        //{
-        //    var result = await _tokenAuthAppService.RegisterUserAsync(input);
-        //    return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
-        //}
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(string token)
+        {
+            var result = await _tokenAuthAppService.RegisterUserAsync(input);
+            return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
+        }
     }
 }

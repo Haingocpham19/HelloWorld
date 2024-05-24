@@ -1,5 +1,6 @@
 ﻿using Extension.Application.AppFactory;
 using Extension.Application.Dto;
+using Extension.Domain.CommanConstant;
 using Extension.Domain.Entities;
 using Extension.Infrastructure.Authentication.JwtBearer;
 using JwtAuthenticationHandler;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -15,7 +17,7 @@ namespace Extension.Application.AppServices
     public interface ITokenAuthAppService
     {
         public Task<TokenAuthResponse> Authenticate(TokenAuthRequest request);
-        //public Task<RefreshTokenReponse> RefreshToken(string token);
+        public Task<RefreshTokenReponse> RefreshToken(string token);
     }
 
     public class TokenAuthAppService : ApplicationServiceBase, ITokenAuthAppService
@@ -59,96 +61,97 @@ namespace Extension.Application.AppServices
             return null;
         }
 
-        //public async Task<RefreshTokenReponse> RefreshToken(string refreshToken)
-        //{
-        //    if (string.IsNullOrWhiteSpace(refreshToken))
-        //    {
-        //        throw new ArgumentNullException(nameof(refreshToken));
-        //    }
+        public async Task<RefreshTokenReponse> RefreshToken(string refreshToken)
+        {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                throw new ArgumentNullException(nameof(refreshToken));
+            }
 
-        //    if (!IsRefreshTokenValid(refreshToken, out var principal))
-        //    {
-        //        throw new ValidationException("Refresh token is not valid!");
-        //    }
+            if (!IsRefreshTokenValid(refreshToken, out var principal))
+            {
+                throw new ValidationException("Refresh token is not valid!");
+            }
 
-        //    try
-        //    {
-        //        var userId = principal?.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            try
+            {
+                var userId = principal?.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
 
-        //        if (string.IsNullOrEmpty(userId))
-        //        {
-        //            throw new ValidationException("Invalid user identifier in refresh token!");
-        //        }
+                if (string.IsNullOrEmpty(userId))
+                {
+                    throw new ValidationException("Invalid user identifier in refresh token!");
+                }
 
-        //        var user = await _userManager.FindByIdAsync(userId);
+                var user = await _userManager.FindByIdAsync(userId);
 
-        //        if (user == null)
-        //        {
-        //            throw new ValidationException("User not found!");
-        //        }
+                if (user == null)
+                {
+                    throw new ValidationException("User not found!");
+                }
 
-        //        var claims = await CreateJwtClaims(user);
-        //        var accessToken = CreateToken(claims);
+                var claims =  CreateJwtClaims(user);
+                var accessToken = CreateToken(claims, _tokenAuthConfiguration.AccessTokenExpiration);
+                var refreshToken1 = CreateToken(claims, _tokenAuthConfiguration.RefreshTokenExpiration);
 
-        //        return new RefreshTokenReponse
-        //        (
-        //            accessToken,
-        //            (int)_tokenAuthConfiguration.AccessTokenExpiration.TotalSeconds
-        //        );
-        //    }
-        //    catch (ValidationException)
-        //    {
-        //        throw; // Re-throw ValidationException
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new ValidationException("Error refreshing token!", e);
-        //    }
-        //}
+                return new RefreshTokenReponse
+                (
+                    accessToken,
+                    refreshToken1
+                );
+            }
+            catch (ValidationException)
+            {
+                throw; // Re-throw ValidationException
+            }
+            catch (Exception e)
+            {
+                throw new ValidationException("Error refreshing token!", e);
+            }
+        }
 
 
-        //private bool IsRefreshTokenValid(string refreshToken, out ClaimsPrincipal principal)
-        //{
-        //    principal = null;
+        private bool IsRefreshTokenValid(string refreshToken, out ClaimsPrincipal principal)
+        {
+            principal = null;
 
-        //    try
-        //    {
-        //        var validationParameters = new TokenValidationParameters
-        //        {
-        //            ValidAudience = _configuration.Audience,
-        //            ValidIssuer = _configuration.Issuer,
-        //            IssuerSigningKey = _configuration.SecurityKey
-        //        };
+            try
+            {
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidAudience = _tokenAuthConfiguration.Audience,
+                    ValidIssuer = _tokenAuthConfiguration.Issuer,
+                    IssuerSigningKey = _tokenAuthConfiguration.SecurityKey
+                };
 
-        //        foreach (var validator in _jwtOptions.Value.SecurityTokenValidators)
-        //        {
-        //            if (!validator.CanReadToken(refreshToken))
-        //            {
-        //                continue;
-        //            }
+                foreach (var validator in _jwtOptions.Value.SecurityTokenValidators)
+                {
+                    if (!validator.CanReadToken(refreshToken))
+                    {
+                        continue;
+                    }
 
-        //            try
-        //            {
-        //                principal = validator.ValidateToken(refreshToken, validationParameters, out _);
+                    try
+                    {
+                        principal = validator.ValidateToken(refreshToken, validationParameters, out _);
 
-        //                if (principal.Claims.FirstOrDefault(x => x.Type == AppConsts.TokenType)?.Value == TokenType.RefreshToken.To<int>().ToString())
-        //                {
-        //                    return true;
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Logger.Debug(ex.ToString(), ex);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Debug(ex.ToString(), ex);
-        //    }
+                        if (principal.Claims.FirstOrDefault(x => x.Type == AppConsts.TokenType)?.Value == TokenType.RefreshToken.ToString())
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex.ToString(), ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lo.Debug(ex.ToString(), ex);
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
 
         private IEnumerable<Claim> CreateJwtClaims(ApplicationUser user)
         {

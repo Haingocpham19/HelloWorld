@@ -28,7 +28,7 @@ export const login = (email: string, password: string) => {
         type: LOGIN_SUCCESS,
         payload: response,
       });
-    } catch (error) {
+    } catch (error:any) {
       dispatch({
         type: LOGIN_FAILURE,
         payload: { error: error.toString() },
@@ -52,7 +52,7 @@ export const getCurrentLoginUser = () => {
         type: LOAD_CURRENT_LOGIN_USER_SUCCESS,
         payload: { user: response },
       });
-    } catch (error) {
+    } catch (error:any) {
       dispatch({
         type: LOAD_CURRENT_LOGIN_USER_FAILURE,
         payload: { error: error.toString() },

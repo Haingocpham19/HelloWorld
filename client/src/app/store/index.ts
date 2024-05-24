@@ -1,60 +1,64 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers } from 'redux';  // Import combineReducers to combine multiple reducers into a single root reducer
+import { persistReducer, persistStore, PersistConfig } from 'redux-persist';  // Import redux-persist to add persistence to the Redux store
+import storage from 'redux-persist/lib/storage';  // Import default storage (localStorage) for persistence
+import { setAuthToken } from '../helpers';  // Import a custom helper to set the authentication token
+import accountReducer from './account/reducers';  // Import account reducer
+import alertReducer from './alert/reducers';  // Import alert reducer
+import notificationReducer from './notification/reducers';  // Import notification reducer
+import usersReducer from './users/reducers';  // Import users reducer
+import { configureStore } from '@reduxjs/toolkit';  // Import configureStore from @reduxjs/toolkit for simplified store setup
 
-import { accountReducer } from './account/reducers';
-import { alertReducer } from './alert/reducers';
-import { notificationReducer } from './notification/reducers';
-import { setAuthToken } from '../helpers';
-import storage from 'redux-persist/lib/storage';
-import thunkMiddleware from 'redux-thunk';
-import { usersReducer } from './users/reducers';
+// Define the state interface for the entire Redux state tree
+export interface RootState {
+  account: any;
+  users: any;
+  alert: any;
+  notification: any;
+}
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['account'],
+// Configuration object for redux-persist
+const persistConfig: PersistConfig<RootState> = {
+  key: 'root',  // Key for the persisted reducer
+  storage,  // Storage engine
+  whitelist: ['account'],  // List of reducers to persist
 };
 
-const rootReducer = combineReducers({
+// Combine all reducers into a single root reducer
+const rootReducer = combineReducers<RootState>({
   account: accountReducer,
   users: usersReducer,
   alert: alertReducer,
   notification: notificationReducer,
 });
 
+// Wrap the rootReducer with persistReducer to add persistence capabilities
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export type AppState = ReturnType<typeof rootReducer>;
+// Configure the Redux store using configureStore from @reduxjs/toolkit
+const store = configureStore({
+  reducer: persistedReducer,  // Set the persisted reducer
+});
 
-const configureStore = () => {
-  const middlewares = [thunkMiddleware];
-  const middlewareEnhancer = applyMiddleware(...middlewares);
-
-  return createStore(persistedReducer, composeEnhancers(middlewareEnhancer));
-};
-
-const store = configureStore();
+// Create the persisted store
 const persistedStore = persistStore(store);
 
-let currentState = store.getState() as AppState;
+// Initialize the current state
+let currentState = store.getState() as RootState;
 
+// Subscribe to store updates to handle token changes
 store.subscribe(() => {
-  // keep track of the previous and current state to compare changes
   let previousState = currentState;
-  currentState = store.getState() as AppState;
-  // if the token changes set the value in localStorage and axios headers
+  currentState = store.getState() as RootState;
+  // Check if the account token has changed
   if (previousState.account.token !== currentState.account.token) {
     const token = currentState.account.token;
     if (token) {
-      setAuthToken(token);
+      setAuthToken(token);  // Set the authentication token if it exists
     }
   }
 });
 
-export { store, persistedStore };
+// Export the configured store and persisted store
+export { persistedStore, store };
+
+export default rootReducer;

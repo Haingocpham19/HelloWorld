@@ -10,6 +10,7 @@ const initialState: AlertState = {
   type: null,
   message: null,
 };
+
 const alertReducer = (
   state: AlertState = initialState,
   action: AlertActionTypes
@@ -35,5 +36,4 @@ const alertReducer = (
   }
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { alertReducer };
+export default alertReducer;

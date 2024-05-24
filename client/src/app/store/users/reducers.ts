@@ -28,7 +28,9 @@ const usersReducer = (
   action: UsersActionTypes
 ): UsersState => {
   switch (action.type) {
-    case LOAD_USERS_PAGING_REQUEST: {
+    case LOAD_USERS_PAGING_REQUEST:
+    case GET_USER_BY_ID_REQUEST:
+    case UPDATE_USER_REQUEST: {
       return {
         ...state,
         loading: true,
@@ -45,17 +47,13 @@ const usersReducer = (
         error: null,
       };
     }
-    case LOAD_USERS_PAGING_FAILURE: {
+    case LOAD_USERS_PAGING_FAILURE:
+    case GET_USER_BY_ID_FAILURE:
+    case UPDATE_USER_FAILURE: {
       return {
         ...state,
         loading: false,
         error: action.payload.error,
-      };
-    }
-    case GET_USER_BY_ID_REQUEST: {
-      return {
-        ...state,
-        loading: true,
       };
     }
     case GET_USER_BY_ID_SUCCESS: {
@@ -66,19 +64,6 @@ const usersReducer = (
         error: null,
       };
     }
-    case GET_USER_BY_ID_FAILURE: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-      };
-    }
-    case UPDATE_USER_REQUEST: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
     case UPDATE_USER_SUCCESS: {
       return {
         ...state,
@@ -86,17 +71,9 @@ const usersReducer = (
         error: null,
       };
     }
-    case UPDATE_USER_FAILURE: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-      };
-    }
     default:
       return state;
   }
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { usersReducer };
+export default usersReducer;

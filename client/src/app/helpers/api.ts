@@ -1,4 +1,4 @@
-import { AppState, store } from '../store';
+import { RootState, store } from '../store';
 import {
   REFRESH_TOKEN_FAILURE,
   REFRESH_TOKEN_REQUEST,
@@ -19,7 +19,7 @@ interface RequestOptions extends RequestInit {
 }
 
 const api = {
-  request: async <T>(url: string, options: RequestOptions): Promise<T> => {
+  request: async <T>(url: string, options: RequestOptions): Promise<T | void> => {
     try {
       const response = await fetch(url, options);
 
@@ -30,7 +30,7 @@ const api = {
       return response.json();
     } catch (error: any) {
       if (error.status === 401) {
-        const currentState = store.getState() as AppState;
+        const currentState = store.getState() as RootState;
         const refreshToken = currentState.account.refreshToken;
 
         // Prevent infinite loops

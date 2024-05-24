@@ -10,35 +10,45 @@ import {
 const initialState: NotificationState = {
   items: [],
 };
+
 const notificationReducer = (
   state: NotificationState = initialState,
   action: NotificationActionTypes
 ): NotificationState => {
   switch (action.type) {
     case ADD_NOTIFICATION:
-      state.items.push({
-        _id: action.payload.id,
-        message: action.payload.message,
-        date: Date.now(),
-        read: false,
-      });
-      return state;
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          {
+            _id: action.payload.id,
+            message: action.payload.message,
+            date: Date.now(),
+            read: false,
+          },
+        ],
+      };
     case MARK_AS_READ:
-      state.items = state.items.map((notification, i) =>
-        notification._id === action.payload.id
-          ? { ...notification, read: true }
-          : notification
-      );
-      return state;
+      return {
+        ...state,
+        items: state.items.map((notification) =>
+          notification._id === action.payload.id
+            ? { ...notification, read: true }
+            : notification
+        ),
+      };
     case MARK_ALL_AS_READ:
-      state.items = state.items.map((notification) => ({
-        ...notification,
-        read: true,
-      }));
-      return state;
-
+      return {
+        ...state,
+        items: state.items.map((notification) => ({
+          ...notification,
+          read: true,
+        })),
+      };
     case CLEAR_NOTIFICATION:
       return {
+        ...state,
         items: [],
       };
     default:
@@ -46,6 +56,4 @@ const notificationReducer = (
   }
 };
 
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { notificationReducer };
+export default notificationReducer;

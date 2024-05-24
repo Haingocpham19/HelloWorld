@@ -12,6 +12,7 @@ import {
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
 } from './types';
+
 const initialState: AccountState = {
   user: null,
   loading: false,
@@ -19,15 +20,15 @@ const initialState: AccountState = {
   token: null,
   refreshToken: null,
 };
+
 const accountReducer = (
   state: AccountState = initialState,
   action: AccountActionTypes
 ): AccountState => {
   switch (action.type) {
-    case LOGIN_REQUEST: {
+    case LOGIN_REQUEST:
       return { ...state, loading: true };
-    }
-    case LOGIN_SUCCESS: {
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -35,8 +36,7 @@ const accountReducer = (
         refreshToken: action.payload.refreshToken,
         token: action.payload.token,
       };
-    }
-    case LOGIN_FAILURE: {
+    case LOGIN_FAILURE:
       return {
         ...state,
         loading: false,
@@ -44,44 +44,37 @@ const accountReducer = (
         refreshToken: null,
         error: action.payload.error,
       };
-    }
-    case LOG_OUT: {
+    case LOG_OUT:
       return {
         ...state,
         user: null,
         token: null,
         error: null,
       };
-    }
-    case LOAD_CURRENT_LOGIN_USER_REQUEST: {
+    case LOAD_CURRENT_LOGIN_USER_REQUEST:
       return { ...state, loading: true };
-    }
-    case LOAD_CURRENT_LOGIN_USER_SUCCESS: {
+    case LOAD_CURRENT_LOGIN_USER_SUCCESS:
       return {
         ...state,
         loading: false,
         user: action.payload.user,
       };
-    }
-    case LOAD_CURRENT_LOGIN_USER_FAILURE: {
+    case LOAD_CURRENT_LOGIN_USER_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload.error,
       };
-    }
-    case REFRESH_TOKEN_REQUEST: {
+    case REFRESH_TOKEN_REQUEST:
       return { ...state, loading: true };
-    }
-    case REFRESH_TOKEN_SUCCESS: {
+    case REFRESH_TOKEN_SUCCESS:
       return {
         ...state,
         loading: false,
         token: action.payload.token,
         refreshToken: action.payload.refreshToken,
       };
-    }
-    case REFRESH_TOKEN_FAILURE: {
+    case REFRESH_TOKEN_FAILURE:
       return {
         ...state,
         loading: false,
@@ -89,10 +82,9 @@ const accountReducer = (
         refreshToken: null,
         error: action.payload.error,
       };
-    }
     default:
       return state;
   }
 };
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { accountReducer };
+
+export default accountReducer;
