@@ -141,13 +141,15 @@ namespace Extension.Application.AppServices
                     }
                     catch (Exception ex)
                     {
-                        Logger.Debug(ex.ToString(), ex);
+                        throw;
+                        ///Logger.Debug(ex.ToString(), ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                lo.Debug(ex.ToString(), ex);
+                throw;
+                //logger.Debug(ex.ToString(), ex);
             }
 
             return false;

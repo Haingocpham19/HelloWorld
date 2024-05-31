@@ -1,0 +1,55 @@
+﻿@page "/file-manager"
+
+@using Syncfusion.Blazor.FileManager
+@using Syncfusion.Blazor.FileManager.Models
+
+<SfFileManager ID="filemanager" AjaxSettings="@ajaxSettings"></SfFileManager>
+
+<div>
+    <h3>Upload File</h3>
+    <InputFile OnChange="@OnInputFileChange" />
+</div>
+
+@if (selectedFile != null)
+{
+    <div>
+        <h4>Selected File:</h4>
+        <p>@selectedFile.Name</p>
+        <p>@selectedFile.Size</p>
+        <button @onclick="DownloadFile">Download</button>
+    </div>
+}
+
+@code {
+    private readonly AjaxSettings ajaxSettings = new AjaxSettings
+    {
+        Url = "https://localhost:5001/api/FileManager/FileOperations",
+        UploadUrl = "https://localhost:5001/api/FileManager/Upload",
+        DownloadUrl = "https://localhost:5001/api/FileManager/Download",
+        GetImageUrl = "https://localhost:5001/api/FileManager/GetImage"
+    };
+
+    private FileManagerFile selectedFile;
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        selectedFile = new FileManagerFile
+        {
+            Name = file.Name,
+            Size = file.Size
+        };
+        // You can perform file upload operation here
+        // You may need to call an API endpoint to upload the file
+        // Example: await UploadFileAsync(file);
+    }
+
+    private async Task DownloadFile()
+    {
+        // You can download the selected file here
+        // You may need to call an API endpoint to initiate the file download
+        // Example: await DownloadFileAsync(selectedFile.Name);
+    }
+
+    // Implement methods to upload and download files as needed
+}

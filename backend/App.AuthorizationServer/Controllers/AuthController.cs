@@ -33,14 +33,13 @@ namespace Extension.Web.Core.Controllers
         public async Task<IActionResult> Register([FromBody] AccountRegisterRequest input)
         {
             var result = await _accountRegisterAppService.RegisterUserAsync(input);
-            return result.Succeeded ?  Ok("Registration successful"): BadRequest(result.Errors); ;
+            return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
         }
 
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken(string token)
+        public async Task<RefreshTokenReponse> RefreshToken(string token)
         {
-            var result = await _tokenAuthAppService.RegisterUserAsync(input);
-            return result.Succeeded ? Ok("Registration successful") : BadRequest(result.Errors); ;
+            return await _tokenAuthAppService.RefreshToken(token);
         }
     }
 }
